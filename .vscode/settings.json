@@ -1,0 +1,60 @@
+// {
+//   "workbench.colorCustomizations": {
+//     "editor.background": "#F5DEB3",
+//     "editor.foreground": "#5A3E36",
+//     "editorCursor.foreground": "#8B4513",
+//     "editorLineNumber.foreground": "#8B5A2B",
+//     "editor.selectionBackground": "#C4A484",
+//     "editor.inactiveSelectionBackground": "#D2B48C"
+// }
+// {
+// "workbench.colorCustomizations": {
+//     "editor.background": "#002F6C",  // Dark Blue (Barça primary)
+//     "editor.foreground": "#A50044",  // Garnet (Barça secondary)
+//     "editorCursor.foreground": "#FFD700",  // Gold (Catalunya accent)
+//     "editor.lineHighlightBackground": "#FFD70033",  // Transparent Gold
+//     "editor.selectionBackground": "#A5004433",  // Transparent Garnet
+//     "editorLineNumber.foreground": "#FFD700",  // Yellow for line numbers
+//     "editorIndentGuide.activeBackground": "#A50044",
+//     "editorIndentGuide.background": "#002F6C",
+//     "terminal.foreground": "#FFD700",  // Gold text in terminal
+//     "terminalCursor.foreground": "#A50044",
+//     "terminal.background": "#002F6C",  // Dark blue terminal
+//     "activityBar.background": "#A50044",  // Sidebar in Garnet
+//     "sideBar.background": "#002F6C",  // Sidebar in Dark Blue
+//     "statusBar.background": "#A50044",
+//     "statusBar.foreground": "#FFD700",
+//     "titleBar.activeBackground": "#FFD700",
+//     "titleBar.activeForeground": "#002F6C"
+// }
+
+{
+  "workbench.colorCustomizations": {
+    "terminal.background": "#000000",
+    "terminal.foreground": "#FFCC00",
+    "terminalCursor.foreground": "#FFCC00",
+    "terminalCursor.background": "#000000"
+  },
+
+  // "workbench.colorCustomizations": {
+  //   "terminal.background": "#000000",
+  //   "terminal.foreground": "#33FF00",
+  //   "terminalCursor.foreground": "#33FF00",
+  //   "terminalCursor.background": "#000000"
+  // }
+
+  // "workbench.colorCustomizations": {
+  //   "terminal.background": "#40318D",
+  //   "terminal.foreground": "#70A4B2",
+  //   "terminalCursor.foreground": "#FFFFFF"
+  // }
+
+  // "workbench.colorCustomizations": {
+  //   "terminal.background": "#0000AA",
+  //   "terminal.foreground": "#FFFFFF",
+  //   "terminalCursor.foreground": "#FFFF00"
+  // }
+
+  "terminal.integrated.fontSize": 18,
+  "terminal.integrated.lineHeight": 2.0
+}

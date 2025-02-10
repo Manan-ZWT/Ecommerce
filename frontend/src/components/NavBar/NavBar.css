@@ -1,0 +1,28 @@
+.navbardiv {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  background-color: #eeeeee;
+  padding: 20px;
+}
+
+.navbardiv img {
+  height: 70px;
+  width: 100px;
+}
+
+.navbardiv ul {
+    display: flex;
+  margin-left: -40px;
+  list-style: none;
+  align-items: center;
+  color: black;
+  justify-content: flex-end;
+  width: calc(100% - 100px);
+}
+
+.navbardiv ul Link {
+
+  text-decoration: none;
+}
