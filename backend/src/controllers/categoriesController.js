@@ -46,6 +46,7 @@ export const showAllCategories = async (req, res) => {
   try {
     const categories = await Category.findAll({
       attributes: ["id", "name"],
+      order:[["id","ASC"]]
     });
     if (categories.length === 0) {
       return res.status(404).json({ error: "No category found" });

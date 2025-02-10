@@ -1,6 +1,7 @@
 // IMPORT ALL REQUIRED MODULES AND FILES
 import express from "express";
 import cors from "cors";
+import path from "path";
 import { sequelize, dbConnect } from "./src/models/index.js";
 import { port } from "./src/config/config.js";
 import { User } from "./src/models/usersModel.js";
@@ -29,6 +30,7 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 app.use(express.urlencoded({ extended: false }));
+app.use("/images", express.static(path.join("C:", "Users", "Admin", "Desktop", "Ecommerce")));
 app.use("/api/auth", authRouter);
 app.use("/api/users", userRouter);
 app.use("/api/categories", categoryRouter);

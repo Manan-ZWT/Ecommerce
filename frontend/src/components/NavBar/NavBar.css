@@ -1,28 +1,67 @@
+header {
+  position: sticky;
+  top: 0;
+  left: 0;
+}
+
 .navbardiv {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: space-between;
   background-color: #eeeeee;
-  padding: 20px;
+  box-shadow: 1px 2px 2px #666666;
+  padding: 5px 20px;
 }
 
 .navbardiv img {
-  height: 70px;
+  height: 50px;
   width: 100px;
 }
 
 .navbardiv ul {
-    display: flex;
+  display: flex;
   margin-left: -40px;
   list-style: none;
   align-items: center;
-  color: black;
   justify-content: flex-end;
   width: calc(100% - 100px);
 }
 
-.navbardiv ul Link {
-
+.navbardiv ul li a {
+  color: #e38f9c;
+  font-size: large;
   text-decoration: none;
+  padding: 2px 15px;
+  border-radius: 15px;
+  margin-inline: 10px;
+  transition: ease-in-out;
+  transition-delay: 0.2s;
+}
+
+.navbardiv ul li a:hover {
+  color: white;
+  background-color: #e00025;
+}
+
+.searchProduct {
+  border-radius: 15px;
+  font-size: 16px;
+  color: #e00025;
+  padding: 5px 10px;
+  border: 0px solid transparent;
+}
+.searchProduct::placeholder {
+  font-size: 16px;
+  opacity: 0.5;
+  color: #e00025;
+}
+.searchProduct:focus {
+  outline: none;
+  border-color: #b0001e;
+  box-shadow: 0 0 5px rgba(224, 0, 37, 0.5);
+}
+
+.searchProduct::selection {
+  border: 0px solid transparent;
 }
