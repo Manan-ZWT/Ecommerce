@@ -10,23 +10,22 @@
 .cardHolder {
   display: flex;
   height: fit-content;
-  flex-direction: row;
   flex-wrap: wrap;
-  margin: 0 50px;
-  gap: 15px;
-  justify-content: space-around;
-  align-items: stretch;
-  margin-bottom: 0px;
+  margin: 20px 50px;
+  gap: 10px;
+  justify-content:space-evenly;
+  align-items: flex-start;
 }
 
 .card {
   width: 20%;
-  max-height: fit-content;
-  margin-inline: 25px;
+  min-width: 300px;
+  min-height: fit-content;
+  margin: 20px 25px;
   align-self: stretch;
   display: flex;
   flex-direction: column;
-  flex-grow: 1;
+  /* flex-grow: 1; */
   justify-content: flex-start;
   border: 1px solid #eeeeee;
   border-radius: 15px;
@@ -40,21 +39,23 @@
 
 .card img {
   width: 100%;
-  height: 30%;
-  border-radius: 15px;
-  object-fit: cover;
+  height: 300px;
+  border-radius: 15px 15px 0 0;
+  object-fit:fill;
 }
 
 .productDetails {
   display: flex;
-  flex-wrap: wrap;
-  flex-direction: row;
+  height: fit-content;
+  flex-grow: 1;
+  flex-direction: column;
   justify-content: space-between;
   padding: 10px 30px;
 }
 
 .productDescription {
   width: 100%;
+  flex-grow: 1;
   font-size: 18px;
   font-weight: normal;
 }
@@ -66,7 +67,7 @@
 }
 
 .productPrice {
-  width: 45%;
+  width: 100%;
   height: fit-content;
   text-align: center;
   padding: 5px 10px;
@@ -77,7 +78,7 @@
 }
 
 .addToCart {
-  width: 45%;
+  width: 100%;
   height: fit-content;
   text-align: center;
   padding: 5px 10px;

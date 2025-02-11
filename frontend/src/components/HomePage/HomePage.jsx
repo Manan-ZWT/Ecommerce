@@ -10,6 +10,7 @@ export const HomePage = () => {
       const response = await axios.get("http://localhost:7000/api/categories");
       setCategories(response.data.data);
     } catch (err) {
+      setCategories([]);
       console.log("Error finding categories");
     }
   };
@@ -20,7 +21,8 @@ export const HomePage = () => {
     <>
       <h1>Welcome, UserName</h1>
       <div>
-        {categories.map((category, index) => {
+        {categories.length>0 ?(
+        categories.map((category, index) => {
           return (
             <>
               <div key={index}>
@@ -29,7 +31,10 @@ export const HomePage = () => {
               <Product category= {category.name} />
             </>
           );
-        })}
+        })):(
+          <h3 className="productTitle">No Categories Found</h3>
+        )
+        }
       </div>
     </>
   );

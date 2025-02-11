@@ -94,7 +94,9 @@ export const showAllProducts = async (req, res) => {
     });
 
     if (data.length === 0) {
-      return res.status(404).json({ message: "No products found" });
+      return res.status(404).json({ message: "No products found" ,
+        data:data
+      });
     }
 
     return res.status(200).json({ message: "Products:", data: data });

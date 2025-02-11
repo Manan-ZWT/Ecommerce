@@ -13,7 +13,7 @@ export const SearchFilters = () => {
     maxPrice: "",
     category: "",
   });
-  const [products, setProducts] = useState([]); 
+  const [products, setProducts] = useState([]);
 
   const handleForm = (e) => {
     e.preventDefault();
@@ -22,6 +22,7 @@ export const SearchFilters = () => {
       maxPrice,
       category,
     });
+    getProducts();
   };
 
   const getCategories = async () => {
@@ -34,14 +35,13 @@ export const SearchFilters = () => {
   };
 
   const getProducts = async () => {
-    if (!formData.minPrice && !formData.maxPrice && !formData.category) return;
-
     try {
       const response = await axios.get(
         `http://localhost:7000/api/products?category=${formData.category}&min_price=${formData.minPrice}&max_price=${formData.maxPrice}`
       );
       setProducts(response.data.data);
     } catch (err) {
+      setProducts([]);
       console.log("Error finding products");
     }
   };
@@ -59,23 +59,27 @@ export const SearchFilters = () => {
       <h2>Search Products By Filters</h2>
       <div>
         <form onSubmit={handleForm}>
-          <label htmlFor="maxRange">Max Price:</label>
+          <label htmlFor="maxPrice">Max Price:</label>
           <input
             type="number"
-            id="maxRange"
+            id="maxPrice"
             value={maxPrice}
             onChange={(e) => setMaxPrice(e.target.value)}
           />
-          <label htmlFor="minRange">Min Price:</label>
+          <label htmlFor="minPrice">Min Price:</label>
           <input
             type="number"
-            id="minRange"
+            id="minPrice"
             value={minPrice}
             onChange={(e) => setMinPrice(e.target.value)}
           />
 
           <label htmlFor="category">Category:</label>
-          <select value={category} onChange={(e) => setCategory(e.target.value)}>
+          <select
+            value={category}
+            id="category"
+            onChange={(e) => setCategory(e.target.value)}
+          >
             <option value="">Select Category</option>
             {categories.map((cat, index) => (
               <option key={index} value={cat.name}>
@@ -92,7 +96,10 @@ export const SearchFilters = () => {
         {products.length > 0 ? (
           products.map((product) => (
             <div key={product.id} className="card">
-              <img src={`http://localhost:7000/images/${product.image_url}`} alt={product.name} />
+              <img
+                src={`http://localhost:7000/images/${product.image_url}`}
+                alt={product.name}
+              />
               <div className="productDetails">
                 <h3 className="productTitle">{product.name}</h3>
                 <p className="productDescription">{product.description}</p>
@@ -104,7 +111,7 @@ export const SearchFilters = () => {
             </div>
           ))
         ) : (
-          <p>No products found.</p>
+          <h3 className="productTitle">No Products Found</h3>
         )}
       </div>
     </div>
