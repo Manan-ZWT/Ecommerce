@@ -48,6 +48,40 @@ export const addToCart = async (req, res) => {
     return res.status(500).json({ error: "Internal server error" });
   }
 };
+export const updateCart= async(req, res)=>{
+  let quantity = parseInt(req.body.quantity);
+
+  try {
+    const user_id = parseInt(req.user.id);
+
+    const user = await User.findByPk(user_id);
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    const data = await Product.findByPk(product_id);
+    if (!data) {
+      return res.status(404).json({ error: "Product not found" });
+    }
+    
+    if (data.stock < quantity) {
+      return res.status(409).json({
+        message: `Not enough stock available for the selected item: ${data.name}`,
+      });
+    }
+
+    await Cart.update({
+      quantity: quantity,
+    }, {where:{id:id}}
+  );
+
+    return res
+      .status(200)
+      .json({ message: "Product has been successfully added to the cart" });
+  } catch (error) {
+    return res.status(500).json({ error: "Internal server error" });
+  }
+}
 
 // SHOW CART ITEMS FUNCTION
 export const showCart = async (req, res) => {

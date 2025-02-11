@@ -29,7 +29,7 @@ export const registerNewUserSchema = yup.object({
     .string()
     .transform((value) => value && value.toLowerCase())
     .oneOf(["admin", "customer"], "Not a valid role, enter a valid role")
-    .required("Role is required"),
+    .optional(),
 });
 
 export const loginUserSchema = yup.object({
@@ -59,10 +59,7 @@ export const userUpdateSchema = yup.object({
     .optional()
     .min(3, "Name must be at least 3 characters")
     .matches(/^[a-zA-Z\s]+$/, "Name must only contain alphabets and spaces"),
-  email: yup
-    .string()
-    .optional()
-    .email("Invalid email format"),
+  email: yup.string().optional().email("Invalid email format"),
   password: yup
     .string()
     .optional()
@@ -72,8 +69,6 @@ export const userUpdateSchema = yup.object({
       "Password must contain at least one lowecase character, one uppercase character, one digit and one special character"
     ),
 });
-
-
 
 // SCHEMA FOR VALIDATING USER FORM DATA FOR "user_forms" TABLE
 export const userFormSchema = yup.object({

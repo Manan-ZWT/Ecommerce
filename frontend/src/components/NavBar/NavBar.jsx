@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import "./NavBar.css";
+import { logout } from "../AuthPages/Logout";
 
 export const NavBar = () => {
   return (
@@ -26,6 +27,11 @@ export const NavBar = () => {
             </li>
             <li>
               <Link to="/signup">Signup</Link>
+            </li>
+            <li>
+              <Link to="/" onClick={logout}>
+                Logout
+              </Link>
             </li>
           </ul>
         </div>

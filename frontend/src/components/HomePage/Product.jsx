@@ -1,9 +1,11 @@
 import "./HomePage.css";
 import { useEffect, useState } from "react";
+import Cookie from "js-cookie";
 import { Link } from "react-router-dom";
 import axios from "axios";
 
 export const Product = (props) => {
+  // const token = Cookie.get("token");
   const [products, setProducts] = useState([]);
   const getProducts = async () => {
     try {
@@ -15,6 +17,28 @@ export const Product = (props) => {
       console.log("Error finding products");
     }
   };
+
+  const addToCart = async (product_id, quantity = 1) => {
+    try {
+      // Ensure token is being used dynamically
+      const token = Cookie.get("token");
+
+      // Ensure the Authorization header is set correctly
+      if (token) {
+        await axios.post(
+          `http://localhost:7000/api/cart`,
+          { product_id, quantity },
+          { headers: { Authorization: `Authorization: Bearer ${token}` } }
+        );
+        alert("Product added to cart!");
+      } else {
+        console.log("No token found, please login.");
+      }
+    } catch (err) {
+      console.log("Error inserting products into cart", err);
+    }
+  };
+
   useEffect(() => {
     getProducts();
   }, []);
@@ -33,7 +57,9 @@ export const Product = (props) => {
                 <p className="productDescription">{product.description}</p>
                 <p className="productPrice">{product.price} ₹</p>
                 <p className="addToCart">
-                <Link to="toCart">Add to Cart</Link>
+                  <button onClick={() => addToCart(product.id)}>
+                    Add to Cart
+                  </button>
                 </p>
               </div>
             </div>

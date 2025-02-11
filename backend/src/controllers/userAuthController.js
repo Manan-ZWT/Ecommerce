@@ -16,14 +16,14 @@ export const registerNewUser = async (req, res) => {
     let last_name = String(req.body.last_name).trim();
     let email = String(req.body.email).trim();
     let password = String(req.body.password).trim();
-    let role = String(req.body.role).trim();
+    // let role = String(req.body.role).trim();
     try {
       await registerNewUserSchema.validate({
         first_name,
         last_name,
         email,
         password,
-        role,
+        // role,
       });
     } catch (validationError) {
       return res.status(406).json({ error: validationError.message });
@@ -39,7 +39,7 @@ export const registerNewUser = async (req, res) => {
       last_name: last_name,
       email: email,
       password: password,
-      role: role,
+      // role: role,
     });
 
     const user = await User.findOne({ where: { email: email } });
@@ -58,7 +58,7 @@ export const userLogin = async (req, res) => {
   try {
     let email = String(req.body.email).trim();
     let password = String(req.body.password).trim();
-    
+
     try {
       await loginUserSchema.validate({
         email,
@@ -90,7 +90,11 @@ export const userLogin = async (req, res) => {
         return res.status(200).json({
           message: "Succesfully login",
           token: token,
-          data: `Name: ${user.first_name} ${user.last_name}, Email: ${user.email}, Role: ${user.role}`,
+          data: {
+            name: `${user.first_name} ${user.last_name}`,
+            email: user.email,
+            role: user.role,
+          },
         });
       } else {
         return res.status(401).json({

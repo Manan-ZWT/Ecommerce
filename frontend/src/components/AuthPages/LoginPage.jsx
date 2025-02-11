@@ -1,0 +1,84 @@
+import "./Loginpage.css";
+import Cookie from "js-cookie";
+import { useState, useEffect } from "react";
+import axios from "axios";
+import { useNavigate, Link } from "react-router-dom";
+
+export const LoginForm = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
+  const navigate = useNavigate();
+
+  const handleForm = (e) => {
+    e.preventDefault();
+    login();
+  };
+
+  const login = async () => {
+    try {
+      const response = await axios.post(
+        `http://localhost:7000/api/auth/login`,
+        {
+          email,
+          password,
+        }
+      );
+
+      if (response.data.message === "Succesfully login") {
+        Cookie.set("token", response.data.token, { expires: 3 });
+        Cookie.set("userdata", JSON.stringify(response.data.data));
+
+        navigate("/");
+      }
+    } catch (err) {
+      if (err.response.data.messsage)
+        setErrorMessage(
+          <>
+            <p>{err.response.data.error}</p>
+            <p>{err.response.data.messsage}</p>
+            <Link to="/register">Register Here</Link>
+          </>
+        );
+      else {
+        setErrorMessage(err.response.data.error);
+      }
+    }
+  };
+
+  return (
+    <div className="login-container">
+      <form className="formContainer" onSubmit={handleForm}>
+        <h2>Login to Your Account</h2>
+        <div className="input-group">
+          <input
+            type="email"
+            id="email"
+            placeholder="Enter your Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
+        </div>
+        <div className="input-group">
+          <input
+            type="password"
+            id="pass"
+            placeholder="Enter your Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
+        </div>
+        <button type="submit" className="login-btn">
+          Login
+        </button>
+        <p className="registerlink">
+          New User? <br />
+          <Link to="/signup">Register to become a new user</Link>
+        </p>
+        {errorMessage && <p className="error">{errorMessage}</p>}
+      </form>
+    </div>
+  );
+};

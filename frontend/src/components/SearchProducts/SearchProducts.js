@@ -1,4 +1,5 @@
 import "../HomePage/HomePage.css";
+import "./SearchProducts.css"
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
@@ -56,39 +57,48 @@ export const SearchFilters = () => {
 
   return (
     <div>
-      <h2>Search Products By Filters</h2>
-      <div>
-        <form onSubmit={handleForm}>
-          <label htmlFor="maxPrice">Max Price:</label>
-          <input
-            type="number"
-            id="maxPrice"
-            value={maxPrice}
-            onChange={(e) => setMaxPrice(e.target.value)}
-          />
-          <label htmlFor="minPrice">Min Price:</label>
-          <input
-            type="number"
-            id="minPrice"
-            value={minPrice}
-            onChange={(e) => setMinPrice(e.target.value)}
-          />
+      <div className="filterContainer">
+        <h2>Search Products By Filters</h2>
+        <form className="filterForm" onSubmit={handleForm}>
+          <div className="filterGroup">
+            <label htmlFor="maxPrice">Max Price:</label>
+            <input
+              type="number"
+              id="maxPrice"
+              value={maxPrice}
+              onChange={(e) => setMaxPrice(e.target.value)}
+            />
+          </div>
 
-          <label htmlFor="category">Category:</label>
-          <select
-            value={category}
-            id="category"
-            onChange={(e) => setCategory(e.target.value)}
-          >
-            <option value="">Select Category</option>
-            {categories.map((cat, index) => (
-              <option key={index} value={cat.name}>
-                {cat.name}
-              </option>
-            ))}
-          </select>
+          <div className="filterGroup">
+            <label htmlFor="minPrice">Min Price:</label>
+            <input
+              type="number"
+              id="minPrice"
+              value={minPrice}
+              onChange={(e) => setMinPrice(e.target.value)}
+            />
+          </div>
 
-          <button type="submit">Search</button>
+          <div className="filterGroup">
+            <label htmlFor="category">Category:</label>
+            <select
+              value={category}
+              id="category"
+              onChange={(e) => setCategory(e.target.value)}
+            >
+              <option value="">Select Category</option>
+              {categories.map((cat, index) => (
+                <option key={index} value={cat.name}>
+                  {cat.name}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          <button type="submit" className="filterButton">
+            Search
+          </button>
         </form>
       </div>
 
