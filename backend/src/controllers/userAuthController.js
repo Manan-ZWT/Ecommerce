@@ -12,11 +12,13 @@ import { secretKey } from "../config/config.js";
 // SIGNUP FUCNTION
 export const registerNewUser = async (req, res) => {
   try {
-    let first_name = String(req.body.first_name).trim();
-    let last_name = String(req.body.last_name).trim();
-    let email = String(req.body.email).trim();
-    let password = String(req.body.password).trim();
-    // let role = String(req.body.role).trim();
+    // let first_name = String(req.body.first_name).trim();
+    // let last_name = String(req.body.last_name).trim();
+    // let email = String(req.body.email).trim();
+    // let password = String(req.body.password).trim();
+    // // let role = String(req.body.role).trim();
+
+    let {first_name, last_name, email, password} = req.body;
     try {
       await registerNewUserSchema.validate({
         first_name,
@@ -56,9 +58,9 @@ export const registerNewUser = async (req, res) => {
 // LOGIN FUNCTION
 export const userLogin = async (req, res) => {
   try {
-    let email = String(req.body.email).trim();
-    let password = String(req.body.password).trim();
-
+    // let email = String(req.body.email).trim();
+    // let password = String(req.body.password).trim();
+    let{email, password}= req.body;
     try {
       await loginUserSchema.validate({
         email,

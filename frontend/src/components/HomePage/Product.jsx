@@ -37,7 +37,7 @@ export const Product = (props) => {
   };
 
   const navigateproduct = async (id) => {
-    navigate(`products/${id}`);
+    navigate(`/products/${id}`);
   };
 
   useEffect(() => {

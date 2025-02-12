@@ -13,7 +13,11 @@ export const getUserProfile = async (req, res) => {
     const user = await User.findByPk(id);
     return res.status(200).json({
       message: `User data of id: ${id} has been succesfully fetched`,
-      data: `Name: ${user.first_name} ${user.last_name}, Email: ${user.email}, Role: ${user.role}`,
+      data: {
+        name: `${user.first_name} ${user.last_name}`,
+        email: user.email,
+        role: user.role,
+      },
     });
   } catch (error) {
     console.error("Error finding user:", error);
@@ -25,10 +29,12 @@ export const getUserProfile = async (req, res) => {
 export const updateUserProfile = async (req, res) => {
   try {
     const id = parseInt(req.user.id);
-    let first_name = String(req.body.first_name).trim();
-    let last_name = String(req.body.last_name).trim();
-    let email = String(req.body.email).trim();
-    let password = String(req.body.password).trim();
+    let { first_name, last_name, email, password } = req.body;
+
+    // let first_name = String(req.body.first_name).trim();
+    // let last_name = String(req.body.last_name).trim();
+    // let email = String(req.body.email).trim();
+    // let password = String(req.body.password).trim();
     try {
       await userUpdateSchema.validate({
         first_name,
@@ -60,7 +66,11 @@ export const updateUserProfile = async (req, res) => {
     const user = await User.findByPk(id);
     return res.status(200).json({
       message: `User data of id: ${id} has been succesfully updated`,
-      data: `Name: ${user.first_name} ${user.last_name}, Email: ${user.email}, Role: ${user.role}`,
+      data: {
+        name: `${user.first_name} ${user.last_name}`,
+        email: user.email,
+        role: user.role,
+      },
     });
   } catch (error) {
     console.error("Error adding user:", error);
@@ -71,7 +81,9 @@ export const updateUserProfile = async (req, res) => {
 // GET ALL USER DETAILS FUCNTION
 export const getAllUserProfile = async (req, res) => {
   try {
-    const users = await User.findAll({attributes:["id","first_name","last_name","email","role"]});
+    const users = await User.findAll({
+      attributes: ["id", "first_name", "last_name", "email", "role"],
+    });
     return res.status(200).json({
       message: `User data has been succesfully fetched`,
       data: users,

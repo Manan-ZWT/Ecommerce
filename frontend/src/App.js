@@ -7,6 +7,8 @@ import { LoginForm } from "./components/AuthPages/LoginPage";
 import { SignupForm } from "./components/AuthPages/signup";
 import { ShowCart } from "./components/cartPage/showCart";
 import { ProductById } from "./components/ProductPage/ProductById";
+import { Updateuser } from "./components/UserProfilePages/Profile";
+import { OrderPage } from "./components/OrderPages/OrderPage";
 
 export const App = () => {
   return (
@@ -16,8 +18,9 @@ export const App = () => {
         <Route index element={<HomePage />} />
         <Route path="/search" element={<SearchFilters />} />
         <Route path="/products/:id" element={<ProductById />} />
-        <Route path="/profile" element={<h1>Profile Page</h1>} />
+        <Route path="/profile" element={<Updateuser />} />
         <Route path="/cart" element={<ShowCart />} />
+        <Route path="/order" element={<OrderPage />} />
         <Route path="/login" element={<LoginForm />} />
         <Route path="/signup" element={<SignupForm />} />
       </Routes>

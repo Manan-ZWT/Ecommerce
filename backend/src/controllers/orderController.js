@@ -52,7 +52,7 @@ export const placeOrder = async (req, res) => {
       order_list.push({
         product_name: product_data.name,
         product_description: product_data.description,
-        product_image:product_data.image_url,
+        product_image: product_data.image_url,
         quantity: product_quantity,
         price: product_price,
       });
@@ -124,11 +124,16 @@ export const getOrderHistory = async (req, res) => {
   try {
     const user_id = parseInt(req.user.id);
 
-    const [orders] = await Order.findAll({
+    const orders = await Order.findAll({
       where: { user_id: user_id },
       include: [
         {
           model: Order_item,
+          include: [
+            {
+              model: Product,
+            },
+          ],
         },
       ],
     });

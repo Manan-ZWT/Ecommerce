@@ -54,8 +54,17 @@ export const ProductById = () => {
               <h3>{product.name}</h3>
               <p>{product.description}</p>
               <p className="price">{product.price} ₹</p>
-              <button onClick={() => addToCart(product.id) } className="addtocart">Add to Cart</button>
-              </div>
+              {token ? (
+                <button
+                  onClick={() => addToCart(product.id)}
+                  className="addtocart"
+                >
+                  Add to Cart
+                </button>
+              ) : (
+                <p className="addToCart">Login to add this item in cart</p>
+              )}
+            </div>
           </div>
         ) : (
           <p>Loading...</p>

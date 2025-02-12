@@ -23,6 +23,9 @@ export const NavBar = () => {
               <Link to="/cart">Cart</Link>
             </li>
             <li>
+              <Link to="/order">Orders</Link>
+            </li>
+            <li>
               <Link to="/login">Login</Link>
             </li>
             <li>

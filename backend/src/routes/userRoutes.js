@@ -16,7 +16,7 @@ router.get(
   verifyRole("admin", "customer"),
   getUserProfile
 );
-router.put(
+router.patch(
   "/profile",
   verifyToken,
   verifyRole("admin", "customer"),

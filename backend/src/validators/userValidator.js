@@ -51,14 +51,14 @@ export const loginUserSchema = yup.object({
 export const userUpdateSchema = yup.object({
   first_name: yup
     .string()
-    .optional()
-    .min(2, "Name must be at least 3 characters")
-    .matches(/^[a-zA-Z\s]+$/, "Name must only contain alphabets and spaces"),
+    .notRequired()
+    .matches(/^[a-zA-Z\s]+$/, "Name must only contain alphabets and spaces")
+    .transform((value) => (value === "" ? null : value)),
   last_name: yup
     .string()
-    .optional()
-    .min(3, "Name must be at least 3 characters")
-    .matches(/^[a-zA-Z\s]+$/, "Name must only contain alphabets and spaces"),
+    .notRequired()
+    .matches(/^[a-zA-Z\s]+$/, "Name must only contain alphabets and spaces")
+    .transform((value) => (value === "" ? null : value)),
   email: yup.string().optional().email("Invalid email format"),
   password: yup
     .string()

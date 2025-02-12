@@ -1,11 +1,13 @@
 import "../HomePage/HomePage.css";
 import "./SearchProducts.css";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Cookie from "js-cookie";
 import axios from "axios";
 
 export const SearchFilters = () => {
   const token = Cookie.get("token");
+  const navigate = useNavigate();
   const [minPrice, setMinPrice] = useState(0);
   const [maxPrice, setMaxPrice] = useState(0);
   const [category, setCategory] = useState("");
@@ -65,6 +67,9 @@ export const SearchFilters = () => {
     }
   };
 
+  const navigateproduct = async (id) => {
+    navigate(`/products/${id}`);
+  };
   useEffect(() => {
     getCategories();
   }, []);
@@ -127,6 +132,9 @@ export const SearchFilters = () => {
               <img
                 src={`http://localhost:7000/images/${product.image_url}`}
                 alt={product.name}
+                onClick={() => {
+                  navigateproduct(product.id);
+                }}
               />
               <div className="productDetails">
                 <h3 className="productTitle">{product.name}</h3>
