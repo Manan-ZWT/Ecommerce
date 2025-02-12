@@ -1,10 +1,11 @@
 import "../HomePage/HomePage.css";
-import "./SearchProducts.css"
+import "./SearchProducts.css";
 import { useEffect, useState } from "react";
+import Cookie from "js-cookie";
 import axios from "axios";
-import { Link } from "react-router-dom";
 
 export const SearchFilters = () => {
+  const token = Cookie.get("token");
   const [minPrice, setMinPrice] = useState(0);
   const [maxPrice, setMaxPrice] = useState(0);
   const [category, setCategory] = useState("");
@@ -44,6 +45,23 @@ export const SearchFilters = () => {
     } catch (err) {
       setProducts([]);
       console.log("Error finding products");
+    }
+  };
+
+  const addToCart = async (product_id, quantity = 1) => {
+    try {
+      if (token) {
+        await axios.post(
+          `http://localhost:7000/api/cart`,
+          { product_id, quantity },
+          { headers: { Authorization: `Authorization: Bearer ${token}` } }
+        );
+        alert("Product added to cart!");
+      } else {
+        console.log("No token found, please login.");
+      }
+    } catch (err) {
+      console.log(err.response.data.error);
     }
   };
 
@@ -114,9 +132,15 @@ export const SearchFilters = () => {
                 <h3 className="productTitle">{product.name}</h3>
                 <p className="productDescription">{product.description}</p>
                 <p className="productPrice">{product.price} ₹</p>
-                <p className="addToCart">
-                  <Link to="toCart">Add to Cart</Link>
-                </p>
+                {token ? (
+                  <p className="addToCart">
+                    <button onClick={() => addToCart(product.id)}>
+                      Add to Cart
+                    </button>
+                  </p>
+                ) : (
+                  <p className="addToCart">Login to add this item in cart</p>
+                )}
               </div>
             </div>
           ))

@@ -3,7 +3,7 @@ import { Order } from "../models/ordersModel.js";
 import { Order_item } from "../models/order_itemsModel.js";
 import { Cart } from "../models/cartsModel.js";
 import { Product } from "../models/productsModel.js";
-import { sendMail } from "../services/mailer.js";
+// import { sendMail } from "../services/mailer.js";
 import { updateStatus } from "../validators/orderValidator.js";
 
 // PLACE ORDER FUNCTION
@@ -52,6 +52,7 @@ export const placeOrder = async (req, res) => {
       order_list.push({
         product_name: product_data.name,
         product_description: product_data.description,
+        product_image:product_data.image_url,
         quantity: product_quantity,
         price: product_price,
       });
@@ -83,28 +84,28 @@ export const placeOrder = async (req, res) => {
       where: { user_id: user_id },
     });
 
-    let orderDetails = "";
-    for (let item of order_list) {
-      orderDetails += `<li>${item.product_name} (x${item.quantity}) - $${item.price}</li>`;
-    }
+    // let orderDetails = "";
+    // for (let item of order_list) {
+    //   orderDetails += `<li>${item.product_name} (x${item.quantity}) - $${item.price}</li>`;
+    // }
 
-    const orderSummary = `
-      <div>
-        <h2>Order Summary</h2>
-        <p><strong>Order ID:</strong> ${order.id}</p>
-        <ul>
-          ${orderDetails}
-        </ul>
-        <p><strong>Total Price:</strong> ${total_price}</p>
-      </div>
-    `;
+    // const orderSummary = `
+    //   <div>
+    //     <h2>Order Summary</h2>
+    //     <p><strong>Order ID:</strong> ${order.id}</p>
+    //     <ul>
+    //       ${orderDetails}
+    //     </ul>
+    //     <p><strong>Total Price:</strong> ${total_price}</p>
+    //   </div>
+    // `;
 
-    sendMail(
-      // ENTER THE MAIL FROM THE USER , THIS IS FOR TESTING PURPOSE
-      `mananpatel1603@gmail.com`,
-      `Your Order details`,
-      `${orderSummary}`
-    );
+    // sendMail(
+    //   // ENTER THE MAIL FROM THE USER , THIS IS FOR TESTING PURPOSE
+    //   `mananpatel1603@gmail.com`,
+    //   `Your Order details`,
+    //   `${orderSummary}`
+    // );
 
     return res.status(200).json({
       message: "Order placed successfully",

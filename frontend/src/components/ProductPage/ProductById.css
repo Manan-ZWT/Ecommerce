@@ -1,0 +1,44 @@
+.productDiv {
+  width: 70%;
+  margin: 25px auto;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-self: center;
+  justify-content: space-around;
+  align-self: center;
+}
+.productDiv img {
+  width: 35%;
+  object-fit: fill;
+  min-width: 300px;
+  border: 1px solid #dddddd83;
+  box-shadow: 2px 3px 4px #eeeeee;
+}
+
+.price {
+  display: flex;
+  padding: 5px;
+  border-radius: 15px;
+  justify-self: center;
+  justify-content: center;
+  text-align: center;
+  background-color: #eeeeee;
+}
+.addtocart {
+  color: #aaaaaa;
+  border: 0px solid transparent;
+  background-color: #e00025;
+  padding: 5px;
+  border-radius: 15px;
+  font-size: 18px;
+  font-family: "Poppins", serif;
+  font-weight: 500;
+  font-style: normal;
+  cursor: pointer;
+}
+
+.addtocart:hover {
+  background-color: #88071c;
+  color: white;
+}

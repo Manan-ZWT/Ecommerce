@@ -1,0 +1,122 @@
+.cartitemcontainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin: 10px;
+  padding: 10px;
+  border: 2px solid #eeeeee;
+  border-radius: 15px;
+}
+.cartitemcontainer:hover {
+  border: 2px solid #e00025;
+  background-color: #eeeeee;
+}
+
+.cartitemcontainer img {
+  width: 100px;
+  height: 100px;
+  border: 1px solid #cccccc;
+  border-radius: 15px;
+}
+
+.cartitemcontainer h3 {
+  color: #e00025;
+}
+
+.price {
+  color: red;
+  font-weight: bolder;
+}
+
+.addButton {
+  display: flex;
+  flex-direction: column;
+  color: green;
+  width: 40px;
+  height: 40px;
+  padding: 10px;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-size: 36px;
+  font-weight: 900;
+  border: 0px solid transparent;
+  border-radius: 15px;
+  background-color: rgb(191, 228, 191);
+  cursor: pointer;
+}
+
+.subtractButton {
+  display: flex;
+  flex-direction: column;
+  color: red;
+  width: 40px;
+  height: 40px;
+  padding: auto;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-size: 36px;
+  font-weight: 900;
+  border: 0px solid transparent;
+  border-radius: 15px;
+  background-color: rgb(243, 161, 161);
+  cursor: pointer;
+}
+
+.removeOrder {
+  text-align: center;
+  color: #e00025;
+  background-color: white;
+  padding: 5px 10px;
+  border: 1px solid #e00025;
+  font-family: "Poppins", serif;
+  font-size: 16px;
+  font-weight: 500;
+  font-style: normal;
+  cursor: pointer;
+  border-radius: 15px;
+  box-sizing: border-box;
+}
+
+.removeOrder:hover {
+  color: white;
+  background-color: #e00025;
+  border: 1px solid transparent;
+}
+
+.totalContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.totalContainer p{
+  font-size: 24px;
+  font-weight: bolder;
+  color: #e00025;
+}
+
+.placeOrder {
+  width: 30%;
+  text-align: center;
+  color: #ffffff;
+  background-color: #aaaaaa;
+  padding: 5px 10px;
+  border: 1px solid #aaaaaa;
+  font-family: "Poppins", serif;
+  font-size: 24px;
+  font-weight: 500;
+  font-style: normal;
+  cursor: pointer;
+  border-radius: 15px;
+  box-sizing: border-box;
+}
+
+.placeOrder:hover {
+  color: white;
+  background-color: #444444;
+  border: 1px solid transparent;
+}

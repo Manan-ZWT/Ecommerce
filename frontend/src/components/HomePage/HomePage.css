@@ -42,6 +42,7 @@
   height: 300px;
   border-radius: 15px 15px 0 0;
   object-fit: fill;
+  cursor: pointer;
 }
 
 .productDetails {
@@ -85,13 +86,19 @@
   border-radius: 15px;
   box-sizing: border-box;
   background-color: #e00025;
+  cursor: pointer;
 }
 
 .addToCart button {
   color: #aaaaaa;
   background-color: transparent;
   border: 0px solid transparent;
+  font-size: 16px;
+  font-family: "Poppins", serif;
+  font-weight: 500;
+  font-style: normal;
   text-decoration: none;
+  cursor: pointer;
 }
 
 .addToCart:hover {

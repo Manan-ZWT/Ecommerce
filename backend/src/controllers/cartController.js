@@ -22,66 +22,73 @@ export const addToCart = async (req, res) => {
     if (!data) {
       return res.status(404).json({ error: "Product not found" });
     }
-    
+
     if (data.stock < quantity) {
       return res.status(409).json({
         message: `Not enough stock available for the selected item: ${data.name}`,
       });
     }
 
-    await addtoCart.validate({
-      user_id,
-      product_id,
-      quantity,
+    const itemexists = await Cart.findOne({
+      where: { product_id: product_id, user_id: user_id },
     });
+    if (!itemexists) {
+      await addtoCart.validate({
+        user_id,
+        product_id,
+        quantity,
+      });
 
-    await Cart.create({
-      user_id: user_id,
-      product_id: product_id,
-      quantity: quantity,
-    });
+      await Cart.create({
+        user_id: user_id,
+        product_id: product_id,
+        quantity: quantity,
+      });
 
-    return res
-      .status(200)
-      .json({ message: "Product has been successfully added to the cart" });
+      return res
+        .status(200)
+        .json({ message: "Product has been successfully added to the cart" });
+    } else {
+      return res.status(200).json({ message: "Item is already in the cart" });
+    }
   } catch (error) {
     return res.status(500).json({ error: "Internal server error" });
   }
 };
-export const updateCart= async(req, res)=>{
+
+export const updateCart = async (req, res) => {
+  let id = parseInt(req.params.id);
   let quantity = parseInt(req.body.quantity);
 
   try {
-    const user_id = parseInt(req.user.id);
-
-    const user = await User.findByPk(user_id);
-    if (!user) {
-      return res.status(404).json({ error: "User not found" });
+    const cartItem = await Cart.findByPk(id, { attributes: ["product_id"] });
+    if (!cartItem) {
+      return res.status(404).json({ error: "Cart item not found" });
     }
 
-    const data = await Product.findByPk(product_id);
-    if (!data) {
+    const product_id = cartItem.product_id;
+
+    const product = await Product.findByPk(product_id);
+    if (!product) {
       return res.status(404).json({ error: "Product not found" });
     }
-    
-    if (data.stock < quantity) {
+
+    if (product.stock < quantity) {
       return res.status(409).json({
-        message: `Not enough stock available for the selected item: ${data.name}`,
+        message: `Not enough stock available for the selected item: ${product.name}`,
       });
     }
 
-    await Cart.update({
-      quantity: quantity,
-    }, {where:{id:id}}
-  );
+    await Cart.update({ quantity }, { where: { id } });
 
     return res
       .status(200)
-      .json({ message: "Product has been successfully added to the cart" });
+      .json({ message: "Product has been successfully updated in the cart" });
   } catch (error) {
+    console.error("Error updating cart:", error);
     return res.status(500).json({ error: "Internal server error" });
   }
-}
+};
 
 // SHOW CART ITEMS FUNCTION
 export const showCart = async (req, res) => {
@@ -92,7 +99,7 @@ export const showCart = async (req, res) => {
       where: {
         user_id: user_id,
       },
-      attributes: ["id","product_id", "quantity"],
+      attributes: ["id", "product_id", "quantity"],
       include: [
         {
           model: Product,
@@ -134,7 +141,7 @@ export const deleteFromCart = async (req, res) => {
     });
     if (!cartProduct) {
       return res.status(404).json({
-        message: `No entry with ID: ${id} has not been found in your cart`,
+        error: `No entry with ID: ${id} has not been found in your cart`,
       });
     }
     await Cart.destroy({
