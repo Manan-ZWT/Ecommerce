@@ -61,9 +61,13 @@ export const ShowCart = () => {
 
   const placeOrder = async () => {
     try {
-      const response = await axios.post("http://localhost:7000/api/orders", {
-        headers: { Authorization: `Authorization: Bearer ${token}` },
-      });
+      const response = await axios.post(
+        "http://localhost:7000/api/orders",
+        {},
+        {
+          headers: { Authorization: `Authorization: Bearer ${token}` },
+        }
+      );
       alert(response.data.message);
       getCartItems();
     } catch (err) {

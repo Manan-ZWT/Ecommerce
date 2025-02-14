@@ -73,6 +73,11 @@
   box-shadow: 0 0 10px #e0002577;
 }
 
+.input-group img{
+  width: 100%;
+  height: fit-content;
+}
+
 .login-btn {
   width: 100%;
   padding: 10px;

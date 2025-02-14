@@ -19,11 +19,32 @@ export const UpdateProduct = () => {
   const [imageUrl, setImageUrl] = useState("");
   const [sucessMessage, setSucessMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
+  const [product, setProduct] = useState([]);
   const [categories, setCategories] = useState([]);
 
   const handleForm = (e) => {
     e.preventDefault();
     updateProduct();
+  };
+
+  const getProduct = async () => {
+    try {
+      const response = await axios.get(
+        `http://localhost:7000/api/products/${id}`,
+        { headers: { Authorization: `Authorization: Bearer ${token}` } }
+      );
+      const productData = response.data.data;
+      setProduct(productData);
+      setName(productData.name);
+      setDescription(productData.description);
+      setPrice(productData.price);
+      setStock(productData.stock);
+      setCategory_id(productData.category_id);
+      setImageUrl(productData.image_url);
+    } catch (err) {
+      setProduct([]);
+      console.log("Error finding product");
+    }
   };
 
   const getCategories = async () => {
@@ -75,6 +96,7 @@ export const UpdateProduct = () => {
 
   useEffect(() => {
     getCategories();
+    getProduct();
   }, []);
 
   return (
@@ -152,6 +174,10 @@ export const UpdateProduct = () => {
                 name="uploaded_file"
                 placeholder="Upload the image for the product"
                 onChange={(e) => setImageUrl(e.target.files[0])}
+              />
+              <img
+                src={`http://localhost:7000/images/${product.image_url}`}
+                alt=""
               />
             </div>
 
