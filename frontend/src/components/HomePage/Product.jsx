@@ -6,6 +6,12 @@ import axios from "axios";
 
 export const Product = (props) => {
   const token = Cookie.get("token");
+  let userdata = Cookie.get("userdata");
+  if (userdata) {
+    userdata = JSON.parse(userdata);
+  } else {
+    userdata = undefined;
+  }
   const navigate = useNavigate();
   const [products, setProducts] = useState([]);
   const getProducts = async () => {
@@ -43,6 +49,7 @@ export const Product = (props) => {
   useEffect(() => {
     getProducts();
   }, []);
+
   return (
     <>
       <div className="cardHolder">
@@ -60,7 +67,7 @@ export const Product = (props) => {
                 <h3 className="productTitle">{product.name}</h3>
                 <p className="productDescription">{product.description}</p>
                 <p className="productPrice">{product.price} ₹</p>
-                {token ? (
+                {token && userdata && userdata.role === "customer" ? (
                   <p className="addToCart">
                     <button onClick={() => addToCart(product.id)}>
                       Add to Cart

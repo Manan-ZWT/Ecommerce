@@ -6,10 +6,12 @@ import { Product } from "./Product";
 
 export const HomePage = () => {
   const [categories, setCategories] = useState([]);
-  let userdata = Cookie.get("userdata");
-  if(userdata){
-  userdata=JSON.parse(userdata)
-  }
+  const [userdata, setUserdata] = useState([]);
+  const fetchCookie = () => {
+    const cookie = Cookie.get("userdata");
+    setUserdata(cookie ? JSON.parse(cookie) : undefined);
+  };
+
   const getCategories = async () => {
     try {
       const response = await axios.get("http://localhost:7000/api/categories");
@@ -21,16 +23,21 @@ export const HomePage = () => {
   };
   useEffect(() => {
     getCategories();
+    fetchCookie();
   }, []);
   return (
     <>
-      {userdata!==undefined ? <h1>Welcome,{userdata.name}</h1> : (<h1>Welcome, Guest</h1>)}
+      {userdata === undefined ? (
+        <h1>Welcome, Guest</h1>
+      ) : (
+        <h1>Welcome,{userdata.name}</h1>
+      )}
       <div>
         {categories.length > 0 ? (
           categories.map((category, index) => {
             return (
               <>
-                <div key={index}>
+                <div key={category.id}>
                   <h2 className="categoryHeader">{category.name}</h2>
                 </div>
                 <Product category={category.name} />

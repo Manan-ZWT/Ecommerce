@@ -9,6 +9,7 @@ import { ShowCart } from "./components/cartPage/showCart";
 import { ProductById } from "./components/ProductPage/ProductById";
 import { Updateuser } from "./components/UserProfilePages/Profile";
 import { OrderPage } from "./components/OrderPages/OrderPage";
+import { AdminNavBar } from "./components/AdminPages/AdminNavBar";
 
 export const App = () => {
   return (
@@ -23,6 +24,7 @@ export const App = () => {
         <Route path="/order" element={<OrderPage />} />
         <Route path="/login" element={<LoginForm />} />
         <Route path="/signup" element={<SignupForm />} />
+        <Route path="/admin" element={<AdminNavBar />} />
       </Routes>
     </>
   );

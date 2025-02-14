@@ -6,6 +6,11 @@ import { useEffect, useState } from "react";
 
 export const ProductById = () => {
   const token = Cookie.get("token");
+  const [userdata, setUserdata] = useState([]);
+  const fetchCookie = () => {
+    const cookie = Cookie.get("userdata");
+    setUserdata(cookie ? JSON.parse(cookie) : undefined);
+  };
 
   const { id } = useParams();
   const [product, setProduct] = useState(null);
@@ -39,6 +44,7 @@ export const ProductById = () => {
 
   useEffect(() => {
     getProduct();
+    fetchCookie();
   }, [id]);
 
   return (
@@ -54,7 +60,7 @@ export const ProductById = () => {
               <h3>{product.name}</h3>
               <p>{product.description}</p>
               <p className="price">{product.price} ₹</p>
-              {token ? (
+              {token && userdata && userdata.role === "customer" ? (
                 <button
                   onClick={() => addToCart(product.id)}
                   className="addtocart"
