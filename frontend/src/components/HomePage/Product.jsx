@@ -1,6 +1,6 @@
 import "./HomePage.css";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { replace, useNavigate } from "react-router-dom";
 import Cookie from "js-cookie";
 import axios from "axios";
 
@@ -46,6 +46,29 @@ export const Product = (props) => {
     navigate(`/products/${id}`);
   };
 
+  const navigateedit = (id) => {
+    navigate(`/edit/${id}`, { replace: true });
+  };
+
+  const deleteProduct = async (id) => {
+    try {
+      if (token) {
+        const confirmDelete = window.confirm(
+          "Do you want to delete the product?"
+        );
+        if (!confirmDelete) return;
+
+        const response = await axios.delete(
+          `http://localhost:7000/api/product/${id}`,
+          { headers: { Authorization: `Authorization: Bearer ${token}` } }
+        );
+
+        alert(response.data.message);
+      }
+    } catch (err) {
+      console.error(err.response.data.error);
+    }
+  };
   useEffect(() => {
     getProducts();
   }, []);
@@ -75,6 +98,22 @@ export const Product = (props) => {
                   </p>
                 ) : (
                   <p className="addToCart">Login to add this item in cart</p>
+                )}
+                {token && userdata && userdata.role === "admin" ? (
+                  <div className="editDiv">
+                    <p className="edit">
+                      <button onClick={() => navigateedit(product.id)}>
+                        Edit product
+                      </button>
+                    </p>
+                    <p className="remove">
+                      <button onClick={() => deleteProduct(product.id)}>
+                        Remove product
+                      </button>
+                    </p>
+                  </div>
+                ) : (
+                  <></>
                 )}
               </div>
             </div>

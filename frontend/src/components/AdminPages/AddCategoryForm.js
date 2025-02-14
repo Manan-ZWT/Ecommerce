@@ -12,10 +12,20 @@ export const AddCategory = () => {
   const [cname, setCname] = useState("");
   const [sucessMessage, setSucessMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
+  const [categories, setCategories] = useState([]);
 
   const handleForm = (e) => {
     e.preventDefault();
     addCat();
+  };
+  const getCategories = async () => {
+    try {
+      const response = await axios.get("http://localhost:7000/api/categories");
+      setCategories(response.data.data);
+    } catch (err) {
+      setCategories([]);
+      console.log("Error finding categories");
+    }
   };
 
   const addCat = async () => {
@@ -23,7 +33,7 @@ export const AddCategory = () => {
       const response = await axios.post(
         `http://localhost:7000/api/categories`,
         {
-          name: cname
+          name: cname,
         },
         {
           headers: { Authorization: `Authorization: Bearer ${token}` },
@@ -35,6 +45,8 @@ export const AddCategory = () => {
         </>
       );
       setErrorMessage("");
+      setCname("");
+      getCategories();
     } catch (err) {
       setSucessMessage("");
       if (err.response.data.message)
@@ -50,10 +62,29 @@ export const AddCategory = () => {
     }
   };
 
+  useEffect(() => {
+    addCat();
+    getCategories();
+  }, []);
+
   return (
     <>
       {userdata && userdata.role === "admin" ? (
         <div className="login-container">
+          <h2>Categories</h2>
+          <div className="categoryList">
+            {categories.length > 0 ? (
+              categories.map((category) => {
+                return (
+                  <h3 key={category.id} value={category.id}>
+                    {category.name}
+                  </h3>
+                );
+              })
+            ) : (
+              <></>
+            )}
+          </div>
           <form className="formContainer" onSubmit={handleForm}>
             <h2>Add Product Category</h2>
 
@@ -67,7 +98,7 @@ export const AddCategory = () => {
               />
             </div>
             <button type="submit" className="login-btn">
-             Add Category
+              Add Category
             </button>
             {sucessMessage && <p className="success">{sucessMessage}</p>}
             {errorMessage && <p className="error">{errorMessage}</p>}

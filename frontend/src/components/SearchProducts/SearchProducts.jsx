@@ -7,6 +7,12 @@ import axios from "axios";
 
 export const SearchFilters = () => {
   const token = Cookie.get("token");
+  let userdata = Cookie.get("userdata");
+  if (userdata) {
+    userdata = JSON.parse(userdata);
+  } else {
+    userdata = undefined;
+  }
   const navigate = useNavigate();
   const [minPrice, setMinPrice] = useState(0);
   const [maxPrice, setMaxPrice] = useState(0);
@@ -70,6 +76,31 @@ export const SearchFilters = () => {
   const navigateproduct = async (id) => {
     navigate(`/products/${id}`);
   };
+
+  const navigateedit = (id) => {
+    navigate(`/edit/${id}`, { replace: true });
+  };
+
+  const deleteProduct = async (id) => {
+    try {
+      if (token) {
+        const confirmDelete = window.confirm(
+          "Do you want to delete the product?"
+        );
+        if (!confirmDelete) return;
+
+        const response = await axios.delete(
+          `http://localhost:7000/api/product/${id}`,
+          { headers: { Authorization: `Authorization: Bearer ${token}` } }
+        );
+
+        alert(response.data.message);
+      }
+    } catch (err) {
+      console.error(err.response.data.error);
+    }
+  };
+
   useEffect(() => {
     getCategories();
   }, []);
@@ -140,7 +171,7 @@ export const SearchFilters = () => {
                 <h3 className="productTitle">{product.name}</h3>
                 <p className="productDescription">{product.description}</p>
                 <p className="productPrice">{product.price} ₹</p>
-                {token ? (
+                {token && userdata && userdata.role === "customer" ? (
                   <p className="addToCart">
                     <button onClick={() => addToCart(product.id)}>
                       Add to Cart
@@ -148,6 +179,22 @@ export const SearchFilters = () => {
                   </p>
                 ) : (
                   <p className="addToCart">Login to add this item in cart</p>
+                )}
+                {token && userdata && userdata.role === "admin" ? (
+                  <div className="editDiv">
+                    <p className="edit">
+                      <button onClick={() => navigateedit(product.id)}>
+                        Edit product
+                      </button>
+                    </p>
+                    <p className="remove">
+                      <button onClick={() => deleteProduct(product.id)}>
+                        Remove product
+                      </button>
+                    </p>
+                  </div>
+                ) : (
+                  <></>
                 )}
               </div>
             </div>

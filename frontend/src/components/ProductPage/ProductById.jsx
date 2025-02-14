@@ -1,5 +1,5 @@
 import "./ProductById.css";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import Cookie from "js-cookie";
 import { useEffect, useState } from "react";
@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 export const ProductById = () => {
   const token = Cookie.get("token");
   const [userdata, setUserdata] = useState([]);
+  const navigate = useNavigate();
   const fetchCookie = () => {
     const cookie = Cookie.get("userdata");
     setUserdata(cookie ? JSON.parse(cookie) : undefined);
@@ -41,6 +42,30 @@ export const ProductById = () => {
       console.log(err.response.data.error);
     }
   };
+  const deleteProduct = async (id) => {
+    try {
+      if (!token) {
+        return;
+      }
+      const confirmDelete = window.confirm(
+        "Do you want to delete the product?"
+      );
+      if (!confirmDelete) return;
+
+      const response = await axios.delete(
+        `http://localhost:7000/api/products/${id}`,
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+
+      alert(response.data.message);
+    } catch (err) {
+      console.error(err.response.data.error);
+    }
+  };
+
+  const navigateedit = (id) => {
+    navigate(`/edit/${id}`, { replace: true });
+  };
 
   useEffect(() => {
     getProduct();
@@ -69,6 +94,22 @@ export const ProductById = () => {
                 </button>
               ) : (
                 <p className="addToCart">Login to add this item in cart</p>
+              )}
+              {token && userdata && userdata.role === "admin" ? (
+                <div className="editDiv">
+                  <p className="edit">
+                    <button onClick={() => navigateedit(product.id)}>
+                      Edit product
+                    </button>
+                  </p>
+                  <p className="remove">
+                    <button onClick={() => deleteProduct(product.id)}>
+                      Remove product
+                    </button>
+                  </p>
+                </div>
+              ) : (
+                <></>
               )}
             </div>
           </div>

@@ -108,3 +108,65 @@
 .addToCart:hover button {
   color: white;
 }
+
+.editDiv{
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  gap :15px
+}
+.edit {
+  width: 45%;
+  height: fit-content;
+  text-align: center;
+  padding: 5px 10px;
+  border-radius: 15px;
+  box-sizing: border-box;
+  background-color: #aaaaaa;
+  cursor: pointer;
+}
+
+.edit button {
+  color: #ffffff;
+  background-color: transparent;
+  border: 0px solid transparent;
+  font-size: 16px;
+  font-family: "Poppins", serif;
+  font-weight: 500;
+  font-style: normal;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.edit:hover {
+  background-color: #333333;
+}
+
+
+.remove {
+  width: 45%;
+  height: fit-content;
+  text-align: center;
+  padding: 5px 10px;
+  border-radius: 15px;
+  box-sizing: border-box;
+  background-color: #720808;
+  cursor: pointer;
+}
+
+.remove button {
+  color: #ffffff;
+  background-color: transparent;
+  border: 0px solid transparent;
+  font-size: 16px;
+  font-family: "Poppins", serif;
+  font-weight: 500;
+  font-style: normal;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.remove:hover {
+  background-color: #ff0000;
+}

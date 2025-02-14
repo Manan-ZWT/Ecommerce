@@ -17,10 +17,21 @@ export const AddProduct = () => {
   const [imageUrl, setImageUrl] = useState("");
   const [sucessMessage, setSucessMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
+  const [categories, setCategories] = useState([]);
 
   const handleForm = (e) => {
     e.preventDefault();
     addProduct();
+  };
+
+  const getCategories = async () => {
+    try {
+      const response = await axios.get("http://localhost:7000/api/categories");
+      setCategories(response.data.data);
+    } catch (err) {
+      setCategories([]);
+      console.log("Error finding categories");
+    }
   };
 
   const addProduct = async () => {
@@ -30,11 +41,11 @@ export const AddProduct = () => {
     formData.append("price", price);
     formData.append("stock", stock);
     formData.append("category_id", category_id);
-    if (imageUrl) formData.append("imageUrl", imageUrl);
+    if (imageUrl) formData.append("uploaded_file", imageUrl);
     try {
       const response = await axios.post(
         `http://localhost:7000/api/products`,
-        { formData },
+        formData,
         {
           headers: { Authorization: `Authorization: Bearer ${token}` },
         }
@@ -59,6 +70,10 @@ export const AddProduct = () => {
       }
     }
   };
+
+  useEffect(() => {
+    getCategories();
+  }, []);
 
   return (
     <>
@@ -108,21 +123,32 @@ export const AddProduct = () => {
             </div>
 
             <div className="input-group">
-              <input
-                type="number"
+              <select
                 id="category_id"
-                placeholder="Enter the category for the product"
                 value={category_id}
                 onChange={(e) => setCategory_id(e.target.value)}
-              />
+              >
+                <option value="">Select a category</option>
+                {categories.length > 0 ? (
+                  categories.map((category) => {
+                    return (
+                      <option key={category.id} value={category.id}>
+                        {category.name}
+                      </option>
+                    );
+                  })
+                ) : (
+                  <option disabled>No categories available</option>
+                )}
+              </select>
             </div>
 
             <div className="input-group">
               <input
                 type="file"
                 id="imageUrl"
+                name="uploaded_file"
                 placeholder="Upload the image for the product"
-                value={imageUrl}
                 onChange={(e) => setImageUrl(e.target.files[0])}
               />
             </div>
