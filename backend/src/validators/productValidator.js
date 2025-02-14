@@ -20,14 +20,14 @@ export const createNewProductSchema = yup.object({
 export const updateProductSchema = yup.object({
   name: yup
     .string()
-    .optional()
+    .notRequired()
     .matches(
       /^[A-Za-z0-9\s!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]*$/,
       "Name must only contain alphabets, spaces, numbers and special characters"
     ),
-  description: yup.string().optional(),
-  price: yup.number("Enter a number in price").optional(),
-  stock: yup.number("Enter a number in stock").optional(),
-  category_id: yup.number("Enter a valid number").nullable().optional(),
-  image_url: yup.string().optional(),
+  description: yup.string().notRequired(),
+  price: yup.number("Enter a number in price").notRequired(),
+  stock: yup.number("Enter a number in stock").notRequired(),
+  category_id: yup.number("Enter a valid number").notRequired(),
+  image_url: yup.string().notRequired(),
 });

@@ -12,6 +12,7 @@ import { OrderPage } from "./components/OrderPages/OrderPage";
 import { AdminNavBar } from "./components/AdminPages/AdminNavBar";
 import { AddProduct } from "./components/AdminPages/AddProductForm";
 import { AddCategory } from "./components/AdminPages/AddCategoryForm";
+import { UpdateProduct } from "./components/AdminPages/UpdateProductForm";
 
 export const App = () => {
   return (
@@ -29,8 +30,7 @@ export const App = () => {
         <Route path="/admin" element={<AdminNavBar />} />
         <Route path="/addProduct" element={<AddProduct />} />
         <Route path="/category" element={<AddCategory />} />
-        <Route path="/edit" element={<AddCategory />} />
-
+        <Route path="/edit/:id" element={<UpdateProduct />} />
       </Routes>
     </>
   );
