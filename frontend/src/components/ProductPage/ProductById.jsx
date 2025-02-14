@@ -42,6 +42,7 @@ export const ProductById = () => {
       console.log(err.response.data.error);
     }
   };
+  
   const deleteProduct = async (id) => {
     try {
       if (!token) {
@@ -54,7 +55,7 @@ export const ProductById = () => {
 
       const response = await axios.delete(
         `http://localhost:7000/api/products/${id}`,
-        { headers: { Authorization: `Bearer ${token}` } }
+        { headers: { Authorization: `Authorization: Bearer ${token}` } }
       );
 
       alert(response.data.message);

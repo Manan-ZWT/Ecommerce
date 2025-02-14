@@ -30,7 +30,6 @@ export const App = () => {
         <Route path="/addProduct" element={<AddProduct />} />
         <Route path="/category" element={<AddCategory />} />
         <Route path="/edit" element={<AddCategory />} />
-        <Route path="/delete" element={<AddCategory />} />
 
       </Routes>
     </>

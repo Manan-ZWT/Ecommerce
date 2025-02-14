@@ -52,23 +52,25 @@ export const Product = (props) => {
 
   const deleteProduct = async (id) => {
     try {
-      if (token) {
-        const confirmDelete = window.confirm(
-          "Do you want to delete the product?"
-        );
-        if (!confirmDelete) return;
-
-        const response = await axios.delete(
-          `http://localhost:7000/api/product/${id}`,
-          { headers: { Authorization: `Authorization: Bearer ${token}` } }
-        );
-
-        alert(response.data.message);
+      if (!token) {
+        return;
       }
+      const confirmDelete = window.confirm(
+        "Do you want to delete the product?"
+      );
+      if (!confirmDelete) return;
+
+      const response = await axios.delete(
+        `http://localhost:7000/api/products/${id}`,
+        { headers: { Authorization: `Authorization: Bearer ${token}` } }
+      );
+
+      alert(response.data.message);
     } catch (err) {
       console.error(err.response.data.error);
     }
   };
+
   useEffect(() => {
     getProducts();
   }, []);
