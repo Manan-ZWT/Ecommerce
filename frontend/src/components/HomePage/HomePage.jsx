@@ -5,6 +5,7 @@ import axios from "axios";
 import { Product } from "./Product";
 
 export const HomePage = () => {
+  const API_LINK = process.env.REACT_APP_API_LINK;
   const [categories, setCategories] = useState([]);
   const [userdata, setUserdata] = useState([]);
   const fetchCookie = () => {
@@ -14,7 +15,7 @@ export const HomePage = () => {
 
   const getCategories = async () => {
     try {
-      const response = await axios.get("http://localhost:7000/api/categories");
+      const response = await axios.get(`${API_LINK}/categories`);
       setCategories(response.data.data);
     } catch (err) {
       setCategories([]);
@@ -34,7 +35,7 @@ export const HomePage = () => {
       )}
       <div>
         {categories.length > 0 ? (
-          categories.map((category, index) => {
+          categories.map((category) => {
             return (
               <>
                 <div key={category.id}>

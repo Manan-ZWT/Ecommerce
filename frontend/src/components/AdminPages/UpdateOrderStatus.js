@@ -6,8 +6,8 @@ import { useNavigate } from "react-router-dom";
 import { AdminNavBar } from "./AdminNavBar";
 
 export const UpdateStatus = () => {
+  const API_LINK = process.env.REACT_APP_API_LINK;
   const navigate = useNavigate();
-  const [status, setStatus] = useState("Pending");
   const [orders, setOrders] = useState([]);
   const [errorMessage, setErrorMessage] = useState("");
 
@@ -19,7 +19,7 @@ export const UpdateStatus = () => {
 
   const getOrders = async () => {
     try {
-      const response = await axios.get("http://localhost:7000/api/orders/all", {
+      const response = await axios.get(`${API_LINK}/orders/all`, {
         headers: { Authorization: `Authorization: Bearer ${token}` },
       });
       setOrders(response.data.data);
@@ -36,7 +36,7 @@ export const UpdateStatus = () => {
     if (confirmed) {
       try {
         const response = await axios.patch(
-          `http://localhost:7000/api/orders/${order_id}/status`,
+          `${API_LINK}/orders/${order_id}/status`,
           { status: value },
           {
             headers: { Authorization: `Authorization: Bearer ${token}` },
@@ -72,7 +72,7 @@ export const UpdateStatus = () => {
                     return (
                       <div key={item.id} className="orderitems">
                         <img
-                          src={`http://localhost:7000/images/${item.Product.image_url}`}
+                          src={`${API_LINK}/images/${item.Product.image_url}`}
                           alt=""
                           onClick={() => {
                             navigateproduct(item.Product.id);

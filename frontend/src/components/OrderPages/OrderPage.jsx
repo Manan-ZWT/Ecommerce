@@ -3,9 +3,9 @@ import { useEffect, useState } from "react";
 import Cookie from "js-cookie";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-// import { Product } from "./Product";
 
 export const OrderPage = () => {
+  const API_LINK = process.env.REACT_APP_API_LINK;
   const navigate = useNavigate();
   const [orders, setOrders] = useState([]);
   const [errorMessage, setErrorMessage] = useState("");
@@ -17,7 +17,7 @@ export const OrderPage = () => {
   }
   const getOrders = async () => {
     try {
-      const response = await axios.get("http://localhost:7000/api/orders", {
+      const response = await axios.get(`${API_LINK}/orders`, {
         headers: { Authorization: `Authorization: Bearer ${token}` },
       });
       setOrders(response.data.data);
@@ -38,16 +38,16 @@ export const OrderPage = () => {
     <>
       <div className="orderContainer">
         {orders.length > 0 ? (
-          orders.map((order, index) => {
+          orders.map((order) => {
             return (
               <>
-                <div key={index} className="orderCard">
+                <div key={order.id} className="orderCard">
                   <h2>Order ID: {order.id}</h2>
-                  {order.Order_items.map((item, index) => {
+                  {order.Order_items.map((item) => {
                     return (
                       <div className="orderitems">
                         <img
-                          src={`http://localhost:7000/images/${item.Product.image_url}`}
+                          src={`${API_LINK}/images/${item.Product.image_url}`}
                           alt=""
                           onClick={() => {
                             navigateproduct(item.Product.id);

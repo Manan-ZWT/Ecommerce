@@ -30,7 +30,7 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 app.use(express.urlencoded({ extended: false }));
-app.use("/images", express.static(path.join("C:", "Users", "Admin", "Desktop", "Ecommerce")));
+app.use("/api/images", express.static(path.join("C:", "Users", "Admin", "Desktop", "Ecommerce")));
 app.use("/api/auth", authRouter);
 app.use("/api/users", userRouter);
 app.use("/api/categories", categoryRouter);

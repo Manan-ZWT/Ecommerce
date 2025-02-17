@@ -1,11 +1,11 @@
 import "./ShowCart.css";
-// import "../HomePage/HomePage.css";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import Cookie from "js-cookie";
 import axios from "axios";
 
 export const ShowCart = () => {
+  const API_LINK = process.env.REACT_APP_API_LINK;
   const token = Cookie.get("token");
   const [cart, setCart] = useState([]);
   let userdata = Cookie.get("userdata");
@@ -14,7 +14,7 @@ export const ShowCart = () => {
   }
   const getCartItems = async () => {
     try {
-      const response = await axios.get("http://localhost:7000/api/cart", {
+      const response = await axios.get(`${API_LINK}/cart`, {
         headers: { Authorization: `Authorization: Bearer ${token}` },
       });
       setCart(response.data.data);
@@ -32,7 +32,7 @@ export const ShowCart = () => {
       }
 
       await axios.patch(
-        `http://localhost:7000/api/cart/${id}`,
+        `${API_LINK}/cart/${id}`,
         { quantity: newQuantity },
         {
           headers: { Authorization: `Authorization: Bearer ${token}` },
@@ -48,7 +48,7 @@ export const ShowCart = () => {
   const removeItem = async (id) => {
     try {
       const response = await axios.delete(
-        `http://localhost:7000/api/cart/${id}`,
+        `${API_LINK}/cart/${id}`,
         {
           headers: { Authorization: `Authorization: Bearer ${token}` },
         }
@@ -63,7 +63,7 @@ export const ShowCart = () => {
   const placeOrder = async () => {
     try {
       const response = await axios.post(
-        "http://localhost:7000/api/orders",
+        `${API_LINK}/orders`,
         {},
         {
           headers: { Authorization: `Authorization: Bearer ${token}` },
@@ -94,7 +94,7 @@ export const ShowCart = () => {
             <>
               <div key={item.id} className="cartitemcontainer">
                 <img
-                  src={`http://localhost:7000/images/${item.Product.image_url}`}
+                  src={`${API_LINK}/images/${item.Product.image_url}`}
                   alt=""
                 />
                 <h3>{item.Product.name}</h3>

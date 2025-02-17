@@ -1,10 +1,11 @@
 import "./Loginpage.css";
 import Cookie from "js-cookie";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
 
 export const LoginForm = () => {
+  const API_LINK = process.env.REACT_APP_API_LINK;
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
@@ -18,7 +19,7 @@ export const LoginForm = () => {
   const login = async () => {
     try {
       const response = await axios.post(
-        `http://localhost:7000/api/auth/login`,
+        `${API_LINK}/auth/login`,
         {
           email,
           password,

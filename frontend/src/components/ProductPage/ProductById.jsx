@@ -5,6 +5,7 @@ import Cookie from "js-cookie";
 import { useEffect, useState } from "react";
 
 export const ProductById = () => {
+  const API_LINK = process.env.REACT_APP_API_LINK;
   const token = Cookie.get("token");
   const [userdata, setUserdata] = useState([]);
   const navigate = useNavigate();
@@ -18,7 +19,7 @@ export const ProductById = () => {
   const getProduct = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:7000/api/products/${id}`
+        `${API_LINK}/products/${id}`
       );
       setProduct(response.data.data);
     } catch (err) {
@@ -30,7 +31,7 @@ export const ProductById = () => {
     try {
       if (token) {
         const response = await axios.post(
-          `http://localhost:7000/api/cart`,
+          `${API_LINK}/cart`,
           { product_id, quantity },
           { headers: { Authorization: `Authorization: Bearer ${token}` } }
         );
@@ -54,7 +55,7 @@ export const ProductById = () => {
       if (!confirmDelete) return;
 
       const response = await axios.delete(
-        `http://localhost:7000/api/products/${id}`,
+        `${API_LINK}/products/${id}`,
         { headers: { Authorization: `Authorization: Bearer ${token}` } }
       );
 
@@ -83,7 +84,7 @@ export const ProductById = () => {
         {product ? (
           <div className="productDiv">
             <img
-              src={`http://localhost:7000/images/${product.image_url}`}
+              src={`${API_LINK}/images/${product.image_url}`}
               alt=""
             />
             <div className="productDetails">
@@ -125,7 +126,7 @@ export const ProductById = () => {
             </div>
           </div>
         ) : (
-          <p>Loading...</p>
+          <></>
         )}
       </div>
     </>

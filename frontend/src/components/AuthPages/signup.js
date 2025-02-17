@@ -1,9 +1,10 @@
 import "./Loginpage.css";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import axios from "axios";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 export const SignupForm = () => {
+  const API_LINK = process.env.REACT_APP_API_LINK;
   const [fname, setFname] = useState("");
   const [lname, setLname] = useState("");
   const [email, setEmail] = useState("");
@@ -19,7 +20,7 @@ export const SignupForm = () => {
   const signup = async () => {
     try {
       const response = await axios.post(
-        `http://localhost:7000/api/auth/registration`,
+        `${API_LINK}/auth/registration`,
         {
           first_name:fname,
           last_name:lname,

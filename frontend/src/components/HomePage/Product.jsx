@@ -1,10 +1,11 @@
 import "./HomePage.css";
 import { useEffect, useState } from "react";
-import { replace, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Cookie from "js-cookie";
 import axios from "axios";
 
 export const Product = (props) => {
+  const API_LINK = process.env.REACT_APP_API_LINK;
   const token = Cookie.get("token");
   let userdata = Cookie.get("userdata");
   if (userdata) {
@@ -17,7 +18,7 @@ export const Product = (props) => {
   const getProducts = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:7000/api/products?category=${props.category}`
+        `${API_LINK}/products?category=${props.category}`
       );
       setProducts(response.data.data.slice(0, 4));
     } catch (err) {
@@ -29,7 +30,7 @@ export const Product = (props) => {
     try {
       if (token) {
         const response = await axios.post(
-          `http://localhost:7000/api/cart`,
+          `${API_LINK}/cart`,
           { product_id, quantity },
           { headers: { Authorization: `Authorization: Bearer ${token}` } }
         );
@@ -65,7 +66,7 @@ export const Product = (props) => {
       if (!confirmDelete) return;
 
       const response = await axios.delete(
-        `http://localhost:7000/api/products/${id}`,
+        `${API_LINK}/products/${id}`,
         { headers: { Authorization: `Authorization: Bearer ${token}` } }
       );
 
@@ -86,7 +87,7 @@ export const Product = (props) => {
           return (
             <div key={product.id} className="card">
               <img
-                src={`http://localhost:7000/images/${product.image_url}`}
+                src={`${API_LINK}/images/${product.image_url}`}
                 alt=""
                 onClick={() => {
                   navigateproduct(product.id);

@@ -6,6 +6,7 @@ import Cookie from "js-cookie";
 import axios from "axios";
 
 export const SearchFilters = () => {
+  const API_LINK = process.env.REACT_APP_API_LINK;
   const token = Cookie.get("token");
   let userdata = Cookie.get("userdata");
   if (userdata) {
@@ -37,7 +38,7 @@ export const SearchFilters = () => {
 
   const getCategories = async () => {
     try {
-      const response = await axios.get("http://localhost:7000/api/categories");
+      const response = await axios.get(`${API_LINK}/categories`);
       setCategories(response.data.data);
     } catch (err) {
       console.log("Error finding categories");
@@ -47,7 +48,7 @@ export const SearchFilters = () => {
   const getProducts = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:7000/api/products?category=${formData.category}&min_price=${formData.minPrice}&max_price=${formData.maxPrice}`
+        `${API_LINK}/products?category=${formData.category}&min_price=${formData.minPrice}&max_price=${formData.maxPrice}`
       );
       setProducts(response.data.data);
     } catch (err) {
@@ -60,7 +61,7 @@ export const SearchFilters = () => {
     try {
       if (token) {
         await axios.post(
-          `http://localhost:7000/api/cart`,
+          `${API_LINK}/cart`,
           { product_id, quantity },
           { headers: { Authorization: `Authorization: Bearer ${token}` } }
         );
@@ -96,7 +97,7 @@ export const SearchFilters = () => {
       if (!confirmDelete) return;
 
       const response = await axios.delete(
-        `http://localhost:7000/api/products/${id}`,
+        `${API_LINK}/products/${id}`,
         { headers: { Authorization: `Authorization: Bearer ${token}` } }
       );
 
@@ -166,7 +167,7 @@ export const SearchFilters = () => {
           products.map((product) => (
             <div key={product.id} className="card">
               <img
-                src={`http://localhost:7000/images/${product.image_url}`}
+                src={`${API_LINK}/images/${product.image_url}`}
                 alt={product.name}
                 onClick={() => {
                   navigateproduct(product.id);

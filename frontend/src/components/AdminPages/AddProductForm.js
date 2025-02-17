@@ -5,6 +5,7 @@ import axios from "axios";
 import { AdminNavBar } from "./AdminNavBar";
 
 export const AddProduct = () => {
+  const API_LINK = process.env.REACT_APP_API_LINK;
   const token = Cookie.get("token");
   let userdata = Cookie.get("userdata");
   if (userdata) {
@@ -27,7 +28,7 @@ export const AddProduct = () => {
 
   const getCategories = async () => {
     try {
-      const response = await axios.get("http://localhost:7000/api/categories");
+      const response = await axios.get(`${API_LINK}/categories`);
       setCategories(response.data.data);
     } catch (err) {
       setCategories([]);
@@ -45,7 +46,7 @@ export const AddProduct = () => {
     if (imageUrl) formData.append("uploaded_file", imageUrl);
     try {
       const response = await axios.post(
-        `http://localhost:7000/api/products`,
+        `${API_LINK}/products`,
         formData,
         {
           headers: { Authorization: `Authorization: Bearer ${token}` },

@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 
 export const UpdateProduct = () => {
+  const API_LINK = process.env.REACT_APP_API_LINK;
   const { id } = useParams();
   const token = Cookie.get("token");
   let userdata = Cookie.get("userdata");
@@ -16,7 +17,7 @@ export const UpdateProduct = () => {
   const [price, setPrice] = useState("");
   const [stock, setStock] = useState("");
   const [category_id, setCategory_id] = useState("");
-  const [imageUrl, setImageUrl] = useState("");
+  const [imageFile, setImageFile] = useState(null);
   const [sucessMessage, setSucessMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [product, setProduct] = useState([]);
@@ -30,7 +31,7 @@ export const UpdateProduct = () => {
   const getProduct = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:7000/api/products/${id}`,
+        `${API_LINK}/products/${id}`,
         { headers: { Authorization: `Authorization: Bearer ${token}` } }
       );
       const productData = response.data.data;
@@ -40,7 +41,6 @@ export const UpdateProduct = () => {
       setPrice(productData.price);
       setStock(productData.stock);
       setCategory_id(productData.category_id);
-      setImageUrl(productData.image_url);
     } catch (err) {
       setProduct([]);
       console.log("Error finding product");
@@ -49,7 +49,7 @@ export const UpdateProduct = () => {
 
   const getCategories = async () => {
     try {
-      const response = await axios.get("http://localhost:7000/api/categories");
+      const response = await axios.get(`${API_LINK}/categories`);
       setCategories(response.data.data);
     } catch (err) {
       setCategories([]);
@@ -64,10 +64,10 @@ export const UpdateProduct = () => {
     if (price) formData.append("price", price);
     if (stock) formData.append("stock", stock);
     if (category_id) formData.append("category_id", category_id);
-    if (imageUrl) formData.append("uploaded_file", imageUrl);
+    if (imageFile) formData.append("uploaded_file", imageFile);
     try {
       const response = await axios.patch(
-        `http://localhost:7000/api/products/${id}`,
+        `${API_LINK}/products/${id}`,
         formData,
         {
           headers: { Authorization: `Authorization: Bearer ${token}` },
@@ -79,6 +79,8 @@ export const UpdateProduct = () => {
         </>
       );
       setErrorMessage("");
+      setImageFile(null);
+      getProduct();
     } catch (err) {
       setSucessMessage("");
       if (err.response.data.message)
@@ -173,12 +175,14 @@ export const UpdateProduct = () => {
                 id="imageUrl"
                 name="uploaded_file"
                 placeholder="Upload the image for the product"
-                onChange={(e) => setImageUrl(e.target.files[0])}
+                onChange={(e) => setImageFile(e.target.files[0])}
               />
-              <img
-                src={`http://localhost:7000/images/${product.image_url}`}
-                alt=""
-              />
+              {product.image_url && (
+                <img
+                  src={`${API_LINK}/images/${product.image_url}`}
+                  alt="Product"
+                />
+              )}
             </div>
 
             <button type="submit" className="login-btn">

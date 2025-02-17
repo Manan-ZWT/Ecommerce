@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 
 export const Updateuser = () => {
+  const API_LINK = process.env.API_LINK;
   const token = Cookie.get("token");
   let userdata = Cookie.get("userdata");
   if (userdata) {
@@ -13,7 +14,7 @@ export const Updateuser = () => {
   const [fname, setFname] = useState("");
   const [lname, setLname] = useState("");
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  // const [password, setPassword] = useState("");
   const [sucessMessage, setSucessMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
 
@@ -25,12 +26,12 @@ export const Updateuser = () => {
   const update = async () => {
     try {
       const response = await axios.patch(
-        `http://localhost:7000/api/users/profile`,
+        `${API_LINK}/users/profile`,
         {
           first_name: fname,
           last_name: lname,
           email,
-          password,
+          // password,
         },
         {
           headers: { Authorization: `Authorization: Bearer ${token}` },
@@ -102,7 +103,7 @@ export const Updateuser = () => {
                 onChange={(e) => setEmail(e.target.value)}
               />
             </div>
-            <div className="input-group">
+            {/* <div className="input-group">
               <input
                 type="password"
                 id="pass"
@@ -110,7 +111,7 @@ export const Updateuser = () => {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />
-            </div>
+            </div> */}
 
             <button type="submit" className="login-btn">
               Update Profile
