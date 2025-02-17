@@ -64,6 +64,10 @@ export const ProductById = () => {
     }
   };
 
+  const navigatelogin = async () => {
+    navigate(`/login`);
+  };
+  
   const navigateedit = (id) => {
     navigate(`/edit/${id}`, { replace: true });
   };
@@ -87,15 +91,21 @@ export const ProductById = () => {
               <p>{product.description}</p>
               <p className="price">{product.price} ₹</p>
               {token && userdata && userdata.role === "customer" ? (
-                <button
-                  onClick={() => addToCart(product.id)}
-                  className="addtocart"
-                >
-                  Add to Cart
-                </button>
-              ) : (
-                <p className="addToCart">Login to add this item in cart</p>
-              )}
+                  <p className="addToCart">
+                    <button onClick={() => addToCart(product.id)}>
+                      Add to Cart
+                    </button>
+                  </p>
+                ) : (
+                  <></>
+                )}
+                {!token && !userdata ? (
+                  <p className="addToCart" onClick={navigatelogin}>
+                    Login to add this item in cart
+                  </p>
+                ) : (
+                  <></>
+                )}
               {token && userdata && userdata.role === "admin" ? (
                 <div className="editDiv">
                   <p className="edit">

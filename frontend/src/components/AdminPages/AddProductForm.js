@@ -2,6 +2,7 @@ import "../AuthPages/Loginpage.css";
 import Cookie from "js-cookie";
 import { useState, useEffect } from "react";
 import axios from "axios";
+import { AdminNavBar } from "./AdminNavBar";
 
 export const AddProduct = () => {
   const token = Cookie.get("token");
@@ -77,6 +78,7 @@ export const AddProduct = () => {
 
   return (
     <>
+      <AdminNavBar></AdminNavBar>
       {userdata && userdata.role === "admin" ? (
         <div className="login-container">
           <form className="formContainer" onSubmit={handleForm}>

@@ -13,6 +13,7 @@ import { AdminNavBar } from "./components/AdminPages/AdminNavBar";
 import { AddProduct } from "./components/AdminPages/AddProductForm";
 import { AddCategory } from "./components/AdminPages/AddCategoryForm";
 import { UpdateProduct } from "./components/AdminPages/UpdateProductForm";
+import { UpdateStatus } from "./components/AdminPages/UpdateOrderStatus";
 
 export const App = () => {
   return (
@@ -31,6 +32,7 @@ export const App = () => {
         <Route path="/addProduct" element={<AddProduct />} />
         <Route path="/category" element={<AddCategory />} />
         <Route path="/edit/:id" element={<UpdateProduct />} />
+        <Route path="/updatestatus" element={<UpdateStatus />} />
       </Routes>
     </>
   );

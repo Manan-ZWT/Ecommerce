@@ -1,6 +1,7 @@
 import "../AuthPages/Loginpage.css";
 import Cookie from "js-cookie";
 import { useState, useEffect } from "react";
+import { AdminNavBar } from "./AdminNavBar";
 import axios from "axios";
 
 export const AddCategory = () => {
@@ -69,6 +70,7 @@ export const AddCategory = () => {
 
   return (
     <>
+      <AdminNavBar></AdminNavBar>
       {userdata && userdata.role === "admin" ? (
         <div className="login-container">
           <h2>Categories</h2>

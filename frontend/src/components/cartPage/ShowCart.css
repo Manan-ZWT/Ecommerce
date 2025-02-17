@@ -120,3 +120,12 @@
   background-color: #444444;
   border: 1px solid transparent;
 }
+
+.continue{
+  color: #e00025;
+  display: flex;
+  margin: 10px;
+  justify-self: center;
+  text-decoration: none;
+  text-align: center;
+}

@@ -182,7 +182,7 @@ export const UpdateProduct = () => {
             </div>
 
             <button type="submit" className="login-btn">
-              Add Product
+              Update Product
             </button>
             {sucessMessage && <p className="success">{sucessMessage}</p>}
             {errorMessage && <p className="error">{errorMessage}</p>}

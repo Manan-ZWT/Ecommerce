@@ -1,5 +1,6 @@
 import "./ShowCart.css";
 // import "../HomePage/HomePage.css";
+import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import Cookie from "js-cookie";
 import axios from "axios";
@@ -135,6 +136,7 @@ export const ShowCart = () => {
           </button>
         </div>
       </div>
+      <Link to="/search" className="continue">Continue Shopping >>></Link>
     </>
   );
 };

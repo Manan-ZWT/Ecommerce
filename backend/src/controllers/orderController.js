@@ -148,6 +148,32 @@ export const getOrderHistory = async (req, res) => {
   }
 };
 
+// GET ALL ORDERS FOR ADMIN
+export const getAllOrder = async (req, res) => {
+  try {
+    const orders = await Order.findAll({
+      include: [
+        {
+          model: Order_item,
+          include: [
+            {
+              model: Product,
+            },
+          ],
+        },
+      ],
+    });
+    if (orders) {
+      return res.status(200).json({ message: "Order details", data: orders });
+    } else {
+      return res.status(404).json({ error: "No order has been placed yet" });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
+
 // GET ORDER DETAILS BY ID FUNCTION
 export const getOrderById = async (req, res) => {
   try {

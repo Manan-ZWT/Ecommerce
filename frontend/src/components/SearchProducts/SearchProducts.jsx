@@ -73,6 +73,10 @@ export const SearchFilters = () => {
     }
   };
 
+  const navigatelogin = async () => {
+    navigate(`/login`);
+  };
+
   const navigateproduct = async (id) => {
     navigate(`/products/${id}`);
   };
@@ -179,7 +183,14 @@ export const SearchFilters = () => {
                     </button>
                   </p>
                 ) : (
-                  <p className="addToCart">Login to add this item in cart</p>
+                  <></>
+                )}
+                {!token && !userdata ? (
+                  <p className="addToCart" onClick={navigatelogin}>
+                    Login to add this item in cart
+                  </p>
+                ) : (
+                  <></>
                 )}
                 {token && userdata && userdata.role === "admin" ? (
                   <div className="editDiv">
