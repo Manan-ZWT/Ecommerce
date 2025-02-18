@@ -14,6 +14,7 @@ import { AddProduct } from "./components/AdminPages/AddProductForm";
 import { AddCategory } from "./components/AdminPages/AddCategoryForm";
 import { UpdateProduct } from "./components/AdminPages/UpdateProductForm";
 import { UpdateStatus } from "./components/AdminPages/UpdateOrderStatus";
+import { ForgetPassword } from "./components/AuthPages/ForgetPassword";
 
 export const App = () => {
   return (
@@ -27,6 +28,7 @@ export const App = () => {
         <Route path="/cart" element={<ShowCart />} />
         <Route path="/order" element={<OrderPage />} />
         <Route path="/login" element={<LoginForm />} />
+        <Route path="/reset" element={<ForgetPassword />} />
         <Route path="/signup" element={<SignupForm />} />
         <Route path="/admin" element={<AdminNavBar />} />
         <Route path="/addProduct" element={<AddProduct />} />

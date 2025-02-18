@@ -18,13 +18,10 @@ export const LoginForm = () => {
 
   const login = async () => {
     try {
-      const response = await axios.post(
-        `${API_LINK}/auth/login`,
-        {
-          email,
-          password,
-        }
-      );
+      const response = await axios.post(`${API_LINK}/auth/login`, {
+        email,
+        password,
+      });
 
       if (response.data.message === "Succesfully login") {
         Cookie.set("token", response.data.token, { expires: 3 });
@@ -74,6 +71,9 @@ export const LoginForm = () => {
         <button type="submit" className="login-btn">
           Login
         </button>
+        <Link to="/reset" className="error">
+          Forget Password
+        </Link>
         <p className="registerlink">
           New User? <br />
           <Link to="/signup">Register to become a new user</Link>
