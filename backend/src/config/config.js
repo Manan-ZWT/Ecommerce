@@ -6,6 +6,8 @@ dotenv.config();
 
 export const port = process.env.D8_APP_PORT;
 export const secretKey = process.env.D8_JWT_SECRET_KEY;
+export const razorpayKey= process.env.D8_RAZORPAY_KEY;
+export const razorpaySecret= process.env.D8_RAZORPAY_SECRET;
 export const config = {
   development: {
     username: process.env.D8_DB_USER,

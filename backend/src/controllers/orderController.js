@@ -1,63 +1,44 @@
 // IMPORT ALL REQUIRED MODULES AND FILES
+import Razorpay from "razorpay";
+import crypto from "crypto";
 import { Order } from "../models/ordersModel.js";
 import { Order_item } from "../models/order_itemsModel.js";
 import { Cart } from "../models/cartsModel.js";
 import { Product } from "../models/productsModel.js";
 import { sendMail } from "../services/mailer.js";
 import { updateStatus } from "../validators/orderValidator.js";
+import { razorpayKey, razorpaySecret } from "../config/config.js";
 
-// PLACE ORDER FUNCTION
-export const placeOrder = async (req, res) => {
+export const payOrder = async (req, res, next) => {
   try {
-    const user_id = parseInt(req.user.id);
+    const razorpay = new Razorpay({
+      key_id: razorpayKey,
+      key_secret: razorpaySecret,
+    });
 
-    const cart_items = await Cart.findAll({ where: { user_id: user_id } });
+    const razor_order = await razorpay.orders.create({
+      amount: req.total_price * 100,
+      currency: "INR",
+      receipt: crypto.randomBytes(10).toString("hex"),
+    });
+    res.status(200).json({
+      razor_order,
+      user_id: req.user.id,
+      total_price: req.total_price,
+      order_items_data: req.order_items_data,
+      order_list: req.order_list,
+    });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ error: "Internal server error" });
+  }
+};
 
-    if (cart_items.length === 0) {
-      return res.status(400).json({ message: "No items found in cart" });
-    }
-
-    let total_price = 0;
-    let order_items_data = [];
-    let order_list = [];
-
-    for (let cart_data of cart_items) {
-      const product_id = parseInt(cart_data.product_id);
-      const product_data = await Product.findByPk(product_id);
-
-      if (!product_data) {
-        return res
-          .status(404)
-          .json({ message: `Product with ID: ${product_id} not found` });
-      }
-
-      const product_quantity = parseInt(cart_data.quantity);
-      const product_price = parseFloat(product_data.price);
-      const item_total_price = product_quantity * product_price;
-
-      if (product_quantity > product_data.stock) {
-        return res.status(409).json({
-          message: `Not enough stock available for the selected item: ${product_data.name}`,
-        });
-      }
-
-      total_price += item_total_price;
-
-      order_items_data.push({
-        product_id,
-        quantity: product_quantity,
-        price: product_price,
-      });
-
-      order_list.push({
-        product_name: product_data.name,
-        product_description: product_data.description,
-        product_image: product_data.image_url,
-        quantity: product_quantity,
-        price: product_price,
-      });
-    }
-
+export const verifyPayment = async (req, res) => {};
+// // PLACE ORDER FUNCTION
+export const placeOrder = async (req, res) => {
+  const { user_id, total_price, order_items_data, order_list } = req.body;
+  try {
     const order = await Order.create({
       user_id: user_id,
       total_price: total_price,
@@ -86,7 +67,7 @@ export const placeOrder = async (req, res) => {
 
     let orderDetails = "";
     for (let item of order_list) {
-      orderDetails += `<li>${item.product_name} (x${item.quantity}) - $${item.price}</li>`;
+      orderDetails += `<li>${item.product_name} (x${item.quantity}) - ₹${item.price}</li>`;
     }
 
     const orderSummary = `
@@ -96,7 +77,7 @@ export const placeOrder = async (req, res) => {
         <ul>
           ${orderDetails}
         </ul>
-        <p><strong>Total Price:</strong> ${total_price}</p>
+        <p><strong>Total Price:</strong> ${req.total_price}</p>
       </div>
     `;
 
@@ -105,12 +86,12 @@ export const placeOrder = async (req, res) => {
       `Your Order details`,
       `${orderSummary}`
     );
-
+    console.log(req.razor_order);
     return res.status(200).json({
       message: "Order placed successfully",
       order_id: order.id,
-      total_price,
-      order_list,
+      total_price: total_price,
+      order_list: order_list,
     });
   } catch (error) {
     console.error(error);

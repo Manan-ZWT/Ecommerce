@@ -5,6 +5,7 @@
   "dependencies": {
     "axios": "^1.7.9",
     "cra-template": "1.2.0",
+    "crypto": "^1.0.1",
     "dotenv": "^16.4.7",
     "js-cookie": "^3.0.5",
     "path": "^0.12.7",
@@ -42,8 +43,10 @@
     ]
   },
   "devDependencies": {
+    "crypto-browserify": "^3.12.1",
     "eslint": "^8.57.1",
     "eslint-config-react-app": "^7.0.1",
-    "react-router-dom": "^7.1.5"
+    "react-router-dom": "^7.1.5",
+    "stream-browserify": "^3.0.0"
   }
 }

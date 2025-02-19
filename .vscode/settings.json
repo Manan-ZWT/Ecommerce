@@ -35,6 +35,12 @@
     "terminalCursor.foreground": "#FFCC00",
     "terminalCursor.background": "#000000"
   },
+  
+
+    "editor.fontFamily": "'Old Standard TT', sans-serif",
+    "editor.fontWeight": "normal",
+    "editor.fontSize": 20,
+  
 
   // "workbench.colorCustomizations": {
   //   "terminal.background": "#000000",
@@ -51,10 +57,11 @@
 
   // "workbench.colorCustomizations": {
   //   "terminal.background": "#0000AA",
-  //   "terminal.foreground": "#FFFFFF",
+  //   "terminal.foreground": "#FFFF00",
   //   "terminalCursor.foreground": "#FFFF00"
   // }
-
+"terminal.integrated.fontFamily": "Consolas, 'Courier New', monospace",
   "terminal.integrated.fontSize": 18,
   "terminal.integrated.lineHeight": 2.0
+
 }
