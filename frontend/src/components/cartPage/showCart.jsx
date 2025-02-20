@@ -97,9 +97,17 @@ export const ShowCart = () => {
           );
           if (valid.data.message && valid.data.message === "Success") {
             // alert(`${valid.data.message}`);
+            // console.log(razorpay_order_id, razorpay_payment_id);
             const response = await axios.post(
               `${API_LINK}/orders/confirm`,
-              { user_id, total_price, order_items_data, order_list },
+              {
+                user_id,
+                total_price,
+                order_items_data,
+                order_list,
+                razorpay_order_id,
+                razorpay_payment_id,
+              },
               {
                 headers: { Authorization: `Authorization: Bearer ${token}` },
               }

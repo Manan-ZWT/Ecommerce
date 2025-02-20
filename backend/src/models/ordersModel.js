@@ -28,6 +28,14 @@ export const Order = sequelize.define(
         }
       },
     },
+    razor_order_id: {
+      type: DataTypes.STRING(255),
+      allowNull: false,
+    },
+    razor_payment_id: {
+      type: DataTypes.STRING(255),
+      allowNull: false,
+    },
   },
   {
     tableName: "orders",

@@ -26,7 +26,6 @@ export const LoginForm = () => {
       if (response.data.message === "Succesfully login") {
         Cookie.set("token", response.data.token, { expires: 3 });
         Cookie.set("userdata", JSON.stringify(response.data.data));
-
         navigate("/");
       }
     } catch (err) {

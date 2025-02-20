@@ -55,12 +55,21 @@ export const verifyPayment = async (req, res) => {
 
 //  PLACE ORDER FUNCTION
 export const placeOrder = async (req, res) => {
-  const { user_id, total_price, order_items_data, order_list } = req.body;
+  const {
+    user_id,
+    total_price,
+    order_items_data,
+    order_list,
+    razorpay_order_id,
+    razorpay_payment_id,
+  } = req.body;
   try {
     const order = await Order.create({
       user_id: user_id,
       total_price: total_price,
       status: "pending",
+      razor_order_id: razorpay_order_id,
+      razor_payment_id: razorpay_payment_id,
     });
 
     await Order_item.bulkCreate(
