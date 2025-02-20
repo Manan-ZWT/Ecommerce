@@ -72,42 +72,54 @@ export const ShowCart = () => {
       const total_price = response.data.total_price;
       const order_items_data = response.data.order_items_data;
       const order_list = response.data.order_list;
-      console.log(order_id, user_id, total_price, order_items_data, order_list);
+      // console.log(order_id, user_id, total_price, order_items_data, order_list);
 
       var options = {
         key_id: process.env.REACT_APP_D8_RAZORPAY_KEY,
         amount: response.data.razor_order.amount,
         currency: response.data.razor_order.currency,
-        name: "Acme Corp",
+        name: "H&M",
         description: "Test Transaction",
+        image: "/images/Logo.png?",
         order_id: response.data.razor_order.id,
         handler: async function (res) {
-          console.log(
-            order_id,
-            user_id,
-            total_price,
-            order_items_data,
-            order_list
-          );
-          const response = await axios.post(
+          // console.log(res);
+          const razorpay_order_id = res.razorpay_order_id;
+          const razorpay_payment_id = res.razorpay_payment_id;
+          const razorpay_signature = res.razorpay_signature;
+
+          const valid = await axios.post(
             `${API_LINK}/orders/verify`,
-            {user_id,total_price, order_items_data, order_list},
+            { razorpay_order_id, razorpay_payment_id, razorpay_signature },
             {
               headers: { Authorization: `Authorization: Bearer ${token}` },
             }
           );
+          if (valid.data.message && valid.data.message === "Success") {
+            // alert(`${valid.data.message}`);
+            const response = await axios.post(
+              `${API_LINK}/orders/confirm`,
+              { user_id, total_price, order_items_data, order_list },
+              {
+                headers: { Authorization: `Authorization: Bearer ${token}` },
+              }
+            );
+            alert(`${response.data.message}`);
+          } else {
+            alert(valid.data.error);
+          }
           setCart([]);
         },
         prefill: {
-          name: "Gaurav Kumar",
-          email: "gaurav.kumar@example.com",
+          name: "Manan Patel",
+          email: "manan@example.com",
           contact: "9000090000",
         },
         notes: {
-          address: "Razorpay Corporate Office",
+          address: "H&M Corporate Office",
         },
         theme: {
-          color: "#3399cc",
+          color: "#de0025",
         },
       };
       var rzp1 = new window.Razorpay(options);

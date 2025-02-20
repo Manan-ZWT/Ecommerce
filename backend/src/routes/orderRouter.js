@@ -23,7 +23,8 @@ router.post(
   placeOrderCheck,
   payOrder
 );
-router.post("/verify", placeOrder);
+router.post("/verify", verifyPayment);
+router.post("/confirm", placeOrder);
 router.get("/all", verifyToken, verifyRole("admin"), getAllOrder);
 router.get("/:id", verifyToken, verifyRole("customer"), getOrderById);
 router.patch(

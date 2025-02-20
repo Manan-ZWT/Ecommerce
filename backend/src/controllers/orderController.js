@@ -8,6 +8,7 @@ import { Product } from "../models/productsModel.js";
 import { sendMail } from "../services/mailer.js";
 import { updateStatus } from "../validators/orderValidator.js";
 import { razorpayKey, razorpaySecret } from "../config/config.js";
+import { error } from "console";
 
 export const payOrder = async (req, res, next) => {
   try {
@@ -34,8 +35,25 @@ export const payOrder = async (req, res, next) => {
   }
 };
 
-export const verifyPayment = async (req, res) => {};
-// // PLACE ORDER FUNCTION
+export const verifyPayment = async (req, res) => {
+  const { razorpay_order_id, razorpay_payment_id, razorpay_signature } =
+    req.body;
+  const sha = crypto.createHmac("sha256", razorpaySecret);
+  sha.update(`${razorpay_order_id}|${razorpay_payment_id}`);
+  const digest = sha.digest("hex");
+  if (digest !== razorpay_signature) {
+    return res
+      .status(400)
+      .json({ error: "Transaction failed, please try again!!" });
+  }
+  res.status(200).json({
+    message: "Success",
+    order_id: razorpay_order_id,
+    payment_id: razorpay_payment_id,
+  });
+};
+
+//  PLACE ORDER FUNCTION
 export const placeOrder = async (req, res) => {
   const { user_id, total_price, order_items_data, order_list } = req.body;
   try {
