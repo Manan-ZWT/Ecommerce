@@ -1,6 +1,6 @@
 import "../OrderPages/OrderPage.css";
 import { useEffect, useState } from "react";
-import Cookie from "js-cookie";
+import { useUser } from "../../Context/UserContext";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { AdminNavBar } from "./AdminNavBar";
@@ -10,17 +10,11 @@ export const UpdateStatus = () => {
   const navigate = useNavigate();
   const [orders, setOrders] = useState([]);
   const [errorMessage, setErrorMessage] = useState("");
-
-  let token = Cookie.get("token");
-  let userdata = Cookie.get("userdata");
-  if (userdata) {
-    userdata = JSON.parse(userdata);
-  }
-
+  const { userdata } = useUser();
   const getOrders = async () => {
     try {
       const response = await axios.get(`${API_LINK}/orders/all`, {
-        headers: { Authorization: `Authorization: Bearer ${token}` },
+        headers: { Authorization: `Authorization: Bearer ${userdata.token}` },
       });
       setOrders(response.data.data);
     } catch (err) {
@@ -39,7 +33,7 @@ export const UpdateStatus = () => {
           `${API_LINK}/orders/${order_id}/status`,
           { status: value },
           {
-            headers: { Authorization: `Authorization: Bearer ${token}` },
+            headers: { Authorization: `Authorization: Bearer ${userdata.token}` },
           }
         );
         getOrders();

@@ -1,16 +1,12 @@
 import "../AuthPages/Loginpage.css";
-import Cookie from "js-cookie";
+import { useUser } from "../../Context/UserContext";
 import { useState, useEffect } from "react";
 import { AdminNavBar } from "./AdminNavBar";
 import axios from "axios";
 
 export const AddCategory = () => {
   const API_LINK = process.env.REACT_APP_API_LINK;
-  const token = Cookie.get("token");
-  let userdata = Cookie.get("userdata");
-  if (userdata) {
-    userdata = JSON.parse(userdata);
-  }
+  const { userdata } = useUser();
   const [cname, setCname] = useState("");
   const [sucessMessage, setSucessMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
@@ -38,7 +34,7 @@ export const AddCategory = () => {
           name: cname,
         },
         {
-          headers: { Authorization: `Authorization: Bearer ${token}` },
+          headers: { Authorization: `Authorization: Bearer ${userdata.token}` },
         }
       );
       setSucessMessage(

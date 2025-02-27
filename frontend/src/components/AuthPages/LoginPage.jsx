@@ -18,18 +18,22 @@ export const LoginForm = () => {
 
   const login = async () => {
     try {
-      const response = await axios.post(`${API_LINK}/auth/login`, {
-        email,
-        password,
-      });
+      const response = await axios.post(
+        `${API_LINK}/auth/login`,
+        {
+          email,
+          password,
+        },
+        {
+          withCredentials: true, 
+        }
+      );
 
       if (response.data.message === "Succesfully login") {
-        Cookie.set("token", response.data.token, { expires: 3 });
-        Cookie.set("userdata", JSON.stringify(response.data.data));
         navigate("/");
       }
     } catch (err) {
-      if (err.response.data.messsage)
+      if (err.status === 404)
         setErrorMessage(
           <>
             <p>{err.response.data.error}</p>
@@ -38,7 +42,7 @@ export const LoginForm = () => {
           </>
         );
       else {
-        setErrorMessage(err.response.data.error);
+        setErrorMessage(err.response);
       }
     }
   };

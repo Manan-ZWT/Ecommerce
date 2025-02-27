@@ -2,18 +2,12 @@ import "../HomePage/HomePage.css";
 import "./SearchProducts.css";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Cookie from "js-cookie";
+import { useUser } from "../../Context/UserContext";
 import axios from "axios";
 
 export const SearchFilters = () => {
   const API_LINK = process.env.REACT_APP_API_LINK;
-  const token = Cookie.get("token");
-  let userdata = Cookie.get("userdata");
-  if (userdata) {
-    userdata = JSON.parse(userdata);
-  } else {
-    userdata = undefined;
-  }
+  const { userdata } = useUser();
   const navigate = useNavigate();
   const [minPrice, setMinPrice] = useState(0);
   const [maxPrice, setMaxPrice] = useState(0);
@@ -59,11 +53,15 @@ export const SearchFilters = () => {
 
   const addToCart = async (product_id, quantity = 1) => {
     try {
-      if (token) {
+      if (userdata.token) {
         await axios.post(
           `${API_LINK}/cart`,
           { product_id, quantity },
-          { headers: { Authorization: `Authorization: Bearer ${token}` } }
+          {
+            headers: {
+              Authorization: `Authorization: Bearer ${userdata.token}`,
+            },
+          }
         );
         alert("Product added to cart!");
       } else {
@@ -88,7 +86,7 @@ export const SearchFilters = () => {
 
   const deleteProduct = async (id) => {
     try {
-      if (!token) {
+      if (!userdata.token) {
         return;
       }
       const confirmDelete = window.confirm(
@@ -96,10 +94,9 @@ export const SearchFilters = () => {
       );
       if (!confirmDelete) return;
 
-      const response = await axios.delete(
-        `${API_LINK}/products/${id}`,
-        { headers: { Authorization: `Authorization: Bearer ${token}` } }
-      );
+      const response = await axios.delete(`${API_LINK}/products/${id}`, {
+        headers: { Authorization: `Authorization: Bearer ${userdata.token}` },
+      });
 
       alert(response.data.message);
     } catch (err) {
@@ -177,7 +174,7 @@ export const SearchFilters = () => {
                 <h3 className="productTitle">{product.name}</h3>
                 <p className="productDescription">{product.description}</p>
                 <p className="productPrice">{product.price} ₹</p>
-                {token && userdata && userdata.role === "customer" ? (
+                {userdata && userdata.token && userdata.role === "customer" ? (
                   <p className="addToCart">
                     <button onClick={() => addToCart(product.id)}>
                       Add to Cart
@@ -186,14 +183,14 @@ export const SearchFilters = () => {
                 ) : (
                   <></>
                 )}
-                {!token && !userdata ? (
+                {!userdata ? (
                   <p className="addToCart" onClick={navigatelogin}>
                     Login to add this item in cart
                   </p>
                 ) : (
                   <></>
                 )}
-                {token && userdata && userdata.role === "admin" ? (
+                {userdata && userdata.token && userdata.role === "admin" ? (
                   <div className="editDiv">
                     <p className="edit">
                       <button onClick={() => navigateedit(product.id)}>

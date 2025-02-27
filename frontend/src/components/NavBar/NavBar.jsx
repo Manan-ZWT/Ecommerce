@@ -1,18 +1,13 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
-import Cookie from "js-cookie";
+import { useUser } from "../../Context/UserContext.js";
 import "./NavBar.css";
 import { logout } from "../AuthPages/Logout";
 
 export const NavBar = () => {
-  const [userdata, setUserdata] = useState([]);
   const location = useLocation();
-  const fetchCookie = () => {
-    const cookie = Cookie.get("userdata");
-    setUserdata(cookie ? JSON.parse(cookie) : undefined);
-  };
+  const { userdata } = useUser();
   useEffect(() => {
-    fetchCookie();
   }, [location]);
 
   return (
@@ -22,12 +17,22 @@ export const NavBar = () => {
           <Link to="/">
             <img src="/images/Logo.png?" alt="" />
           </Link>
+          <label className="hamburger-menu" for="hamburger-menu-toggle">
+            <div className="hamburger"></div>
+            <div className="hamburger"></div>
+            <div className="hamburger"></div>
+          </label>
+          <input
+            type="checkbox"
+            className="hamburger-menu-toggle"
+            id="hamburger-menu-toggle"
+          />
           <ul>
             <li>
               {/* <input type="text" placeholder="Enter the product name" className="searchProduct" /> */}
               <Link to="/search">Search Products</Link>
             </li>
-            
+
             {userdata && userdata.role === "admin" ? (
               <li>
                 <Link to="/admin">Admin Panel</Link>

@@ -85,9 +85,26 @@ export const userLogin = async (req, res) => {
           secretKey,
           {
             expiresIn: "4h",
-          },
+            algorithm: "HS256",
+          }
+        );
+        res.cookie("token", token, {
+          httpOnly: true,
+          sameSite: "Lax",
+          maxAge: 4 * 60 * 60 * 1000,
+        });
+
+        res.cookie(
+          "userdata",
+          JSON.stringify({
+            name: `${user.first_name} ${user.last_name}`,
+            email: user.email,
+            role: user.role,
+          }),
           {
-            algorithm: "RS256",
+            httpOnly: true,
+            sameSite: "Lax",
+            maxAge: 4 * 60 * 60 * 1000,
           }
         );
         return res.status(200).json({
@@ -105,6 +122,30 @@ export const userLogin = async (req, res) => {
         });
       }
     }
+  } catch (error) {
+    console.error("Error adding user:", error);
+    return res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+export const loggedInUser = async (req, res) => {
+  try {
+    const token = req.cookies.token;
+    if (!token) {
+      return res.status(401).json({ error: "Unauthorized - No token found" });
+    }
+    const decoded = jwt.verify(token, secretKey);
+    const user = await User.findOne({ where: { email: decoded.email } });
+
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+    return res.status(200).json({
+      name: `${user.first_name} ${user.last_name}`,
+      email: user.email,
+      role: user.role,
+      token: token,
+    });
   } catch (error) {
     console.error("Error adding user:", error);
     return res.status(500).json({ message: "Internal server error" });

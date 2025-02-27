@@ -8,7 +8,6 @@ import { Product } from "../models/productsModel.js";
 import { sendMail } from "../services/mailer.js";
 import { updateStatus } from "../validators/orderValidator.js";
 import { razorpayKey, razorpaySecret } from "../config/config.js";
-import { error } from "console";
 
 export const payOrder = async (req, res, next) => {
   try {

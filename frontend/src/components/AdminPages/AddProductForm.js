@@ -1,16 +1,12 @@
 import "../AuthPages/Loginpage.css";
-import Cookie from "js-cookie";
+import { useUser } from "../../Context/UserContext";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { AdminNavBar } from "./AdminNavBar";
 
 export const AddProduct = () => {
   const API_LINK = process.env.REACT_APP_API_LINK;
-  const token = Cookie.get("token");
-  let userdata = Cookie.get("userdata");
-  if (userdata) {
-    userdata = JSON.parse(userdata);
-  }
+  const { userdata } = useUser();
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState("");
@@ -49,7 +45,7 @@ export const AddProduct = () => {
         `${API_LINK}/products`,
         formData,
         {
-          headers: { Authorization: `Authorization: Bearer ${token}` },
+          headers: { Authorization: `Authorization: Bearer ${userdata.token}` },
         }
       );
       setSucessMessage(

@@ -1,17 +1,13 @@
 import "./HomePage.css";
 import { useEffect, useState } from "react";
-import Cookie from "js-cookie";
 import axios from "axios";
 import { Product } from "./Product";
+import { useUser } from "../../Context/UserContext.js";
 
 export const HomePage = () => {
   const API_LINK = process.env.REACT_APP_API_LINK;
+  const { userdata } = useUser();
   const [categories, setCategories] = useState([]);
-  const [userdata, setUserdata] = useState([]);
-  const fetchCookie = () => {
-    const cookie = Cookie.get("userdata");
-    setUserdata(cookie ? JSON.parse(cookie) : undefined);
-  };
 
   const getCategories = async () => {
     try {
@@ -24,11 +20,10 @@ export const HomePage = () => {
   };
   useEffect(() => {
     getCategories();
-    fetchCookie();
   }, []);
   return (
     <>
-      {userdata === undefined ? (
+      {userdata?.name === undefined ? (
         <h1>Welcome, Guest</h1>
       ) : (
         <h1>Welcome,{userdata.name}</h1>

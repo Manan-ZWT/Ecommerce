@@ -1,15 +1,12 @@
 import "../AuthPages/Loginpage.css";
 import Cookie from "js-cookie";
-import { useState, useEffect } from "react";
+import { useUser } from "../../Context/UserContext";
+import { useState } from "react";
 import axios from "axios";
 
 export const Updateuser = () => {
   const API_LINK = process.env.API_LINK;
-  const token = Cookie.get("token");
-  let userdata = Cookie.get("userdata");
-  if (userdata) {
-    userdata = JSON.parse(userdata);
-  }
+  const { userdata } = useUser();
   const [user, setUser] = useState(userdata);
   const [fname, setFname] = useState("");
   const [lname, setLname] = useState("");
@@ -34,7 +31,7 @@ export const Updateuser = () => {
           // password,
         },
         {
-          headers: { Authorization: `Authorization: Bearer ${token}` },
+          headers: { Authorization: `Authorization: Bearer ${userdata.token}` },
         }
       );
       setSucessMessage(
@@ -48,7 +45,6 @@ export const Updateuser = () => {
         email: response.data.data.email,
         role: response.data.data.role,
       };
-      Cookie.set("userdata", JSON.stringify(updateData));
       setUser(updateData);
       setErrorMessage("");
     } catch (err) {

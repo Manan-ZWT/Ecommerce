@@ -2,15 +2,18 @@
 import express from "express";
 import {
   forgetPassword,
+  loggedInUser,
   registerNewUser,
   resetPassword,
   userLogin,
 } from "../controllers/userAuthController.js";
+import { verifyToken } from "../middlewares/jwtAuth.js";
 
 // CREATING ROUTES FOR "/auth" REQUEST
 const router = express.Router();
 router.post("/registration", registerNewUser);
 router.post("/login", userLogin);
+router.get("/logged", loggedInUser);
 router.post("/forget", forgetPassword);
 router.patch("/reset", resetPassword);
 

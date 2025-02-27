@@ -1,3 +1,8 @@
+body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 header {
   position: sticky;
   top: 0;
@@ -6,12 +11,14 @@ header {
 
 .navbardiv {
   display: flex;
+  width: 100%;
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: space-between;
   background-color: #eeeeee;
   box-shadow: 1px 2px 2px #666666;
   padding: 5px 20px;
+  box-sizing: border-box;
 }
 
 .navbardiv img {
@@ -45,6 +52,28 @@ header {
   background-color: #e00025;
 }
 
+.navbardiv .hamburger-menu {
+  display: none;
+  cursor: pointer;
+  flex-direction: column;
+  align-self: center;
+  position: absolute;
+  right: 30px;
+  top: 30px;
+}
+
+.navbardiv .hamburger-menu-toggle {
+  display: none;
+}
+
+.navbardiv .hamburger-menu .hamburger {
+  width: 40px;
+  height: 4px;
+  background-color: #e00025;
+  margin: 3px 0px;
+  transition: 0.3s;
+}
+
 .searchProduct {
   border-radius: 15px;
   font-size: 16px;
@@ -65,4 +94,56 @@ header {
 
 .searchProduct::selection {
   border: 0px solid transparent;
+}
+
+@media screen and (max-width: 770px) {
+  .navbardiv .hamburger-menu {
+    display: flex;
+  }
+
+  .navbardiv ul {
+    display: none;
+    list-style: none;
+    width: 100%;
+    flex-direction: column;
+    justify-content: center;
+    background-color: #ededed;
+    border: 1px solid #6666668c;
+    border-radius: 0px;
+    box-shadow: 1px 2px 3px #666666;
+    position: absolute;
+    top: 50px;
+    right: 0;
+    padding: 0 0 0 0;
+    z-index: 1;
+  }
+
+  .hamburger-menu-toggle:checked {
+    background-color: var(--menu_hover_color);
+  }
+
+  .hamburger-menu-toggle:checked ~ ul {
+    display: flex;
+    justify-content: center;
+  }
+
+  .navbardiv ul li {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 10px 0;
+  }
+
+  .navbardiv ul li a {
+    justify-content: center;
+    display: flex;
+    width: 100%;
+    padding: 10px;
+  }
+
+  .navbardiv ul li a:checked {
+    display: none;
+  }
 }

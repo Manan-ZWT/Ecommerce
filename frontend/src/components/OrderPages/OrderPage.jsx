@@ -1,6 +1,6 @@
 import "./OrderPage.css";
 import { useEffect, useState } from "react";
-import Cookie from "js-cookie";
+import { useUser } from "../../Context/UserContext";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
@@ -10,15 +10,12 @@ export const OrderPage = () => {
   const [orders, setOrders] = useState([]);
   const [errorMessage, setErrorMessage] = useState("");
 
-  let token = Cookie.get("token");
-  let userdata = Cookie.get("userdata");
-  if (userdata) {
-    userdata = JSON.parse(userdata);
-  }
+  const { userdata } = useUser();
+
   const getOrders = async () => {
     try {
       const response = await axios.get(`${API_LINK}/orders`, {
-        headers: { Authorization: `Authorization: Bearer ${token}` },
+        headers: { Authorization: `Authorization: Bearer ${userdata.token}` },
       });
       setOrders(response.data.data);
     } catch (err) {
@@ -30,10 +27,7 @@ export const OrderPage = () => {
   const navigateproduct = async (id) => {
     navigate(`/products/${id}`);
   };
-// 
 
-
-// 
   useEffect(() => {
     getOrders();
   }, []);

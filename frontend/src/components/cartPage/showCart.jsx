@@ -1,21 +1,17 @@
 import "./ShowCart.css";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
-import Cookie from "js-cookie";
+import { useUser } from "../../Context/UserContext";
 import axios from "axios";
 
 export const ShowCart = () => {
   const API_LINK = process.env.REACT_APP_API_LINK;
-  const token = Cookie.get("token");
   const [cart, setCart] = useState([]);
-  let userdata = Cookie.get("userdata");
-  if (userdata) {
-    userdata = JSON.parse(userdata);
-  }
+  const { userdata } = useUser();
   const getCartItems = async () => {
     try {
       const response = await axios.get(`${API_LINK}/cart`, {
-        headers: { Authorization: `Authorization: Bearer ${token}` },
+        headers: { Authorization: `Authorization: Bearer ${userdata.token}` },
       });
       setCart(response.data.data);
     } catch (err) {
@@ -35,7 +31,7 @@ export const ShowCart = () => {
         `${API_LINK}/cart/${id}`,
         { quantity: newQuantity },
         {
-          headers: { Authorization: `Authorization: Bearer ${token}` },
+          headers: { Authorization: `Authorization: Bearer ${userdata.token}` },
         }
       );
 
@@ -48,7 +44,7 @@ export const ShowCart = () => {
   const removeItem = async (id) => {
     try {
       const response = await axios.delete(`${API_LINK}/cart/${id}`, {
-        headers: { Authorization: `Authorization: Bearer ${token}` },
+        headers: { Authorization: `Authorization: Bearer ${userdata.token}` },
       });
       alert(response.data.message);
       getCartItems();
@@ -64,7 +60,7 @@ export const ShowCart = () => {
         `${API_LINK}/orders`,
         {},
         {
-          headers: { Authorization: `Authorization: Bearer ${token}` },
+          headers: { Authorization: `Authorization: Bearer ${userdata.token}` },
         }
       );
       const order_id = response.data.razor_order.id;
@@ -92,7 +88,7 @@ export const ShowCart = () => {
             `${API_LINK}/orders/verify`,
             { razorpay_order_id, razorpay_payment_id, razorpay_signature },
             {
-              headers: { Authorization: `Authorization: Bearer ${token}` },
+              headers: { Authorization: `Authorization: Bearer ${userdata.token}` },
             }
           );
           if (valid.data.message && valid.data.message === "Success") {
@@ -109,7 +105,7 @@ export const ShowCart = () => {
                 razorpay_payment_id,
               },
               {
-                headers: { Authorization: `Authorization: Bearer ${token}` },
+                headers: { Authorization: `Authorization: Bearer ${userdata.token}` },
               }
             );
             alert(`${response.data.message}`);

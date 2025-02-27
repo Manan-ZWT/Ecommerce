@@ -1,17 +1,13 @@
 import "../AuthPages/Loginpage.css";
 import { useParams } from "react-router-dom";
-import Cookie from "js-cookie";
+import { useUser } from "../../Context/UserContext";
 import { useState, useEffect } from "react";
 import axios from "axios";
 
 export const UpdateProduct = () => {
   const API_LINK = process.env.REACT_APP_API_LINK;
   const { id } = useParams();
-  const token = Cookie.get("token");
-  let userdata = Cookie.get("userdata");
-  if (userdata) {
-    userdata = JSON.parse(userdata);
-  }
+  const { userdata } = useUser();
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState("");
@@ -32,7 +28,7 @@ export const UpdateProduct = () => {
     try {
       const response = await axios.get(
         `${API_LINK}/products/${id}`,
-        { headers: { Authorization: `Authorization: Bearer ${token}` } }
+        { headers: { Authorization: `Authorization: Bearer ${userdata.token}` } }
       );
       const productData = response.data.data;
       setProduct(productData);
@@ -70,7 +66,7 @@ export const UpdateProduct = () => {
         `${API_LINK}/products/${id}`,
         formData,
         {
-          headers: { Authorization: `Authorization: Bearer ${token}` },
+          headers: { Authorization: `Authorization: Bearer ${userdata.token}` },
         }
       );
       setSucessMessage(
