@@ -37,7 +37,20 @@ app.use(
   })
 );
 app.use(cookieParser());
-// app.use(helmet());
+app.use(
+  helmet({
+    crossOriginResourcePolicy: false,
+    contentSecurityPolicy: {
+      directives: {
+        defaultSrc: ["'self'"],
+        imgSrc: ["'self'", "data:", "blob:", "http://192.168.1.14:7000"],
+        scriptSrc: ["'self'"],
+        objectSrc: ["'none'"],
+      },
+    },
+  })
+);
+
 app.use(express.urlencoded({ extended: false }));
 app.use(
   "/api/images",
