@@ -90,7 +90,7 @@ export const userLogin = async (req, res) => {
         );
         res.cookie("token", token, {
           httpOnly: true,
-          sameSite: "Lax",
+          sameSite: "strict",
           maxAge: 4 * 60 * 60 * 1000,
         });
 
@@ -103,7 +103,7 @@ export const userLogin = async (req, res) => {
           }),
           {
             httpOnly: true,
-            sameSite: "Lax",
+            sameSite: "strict",
             maxAge: 4 * 60 * 60 * 1000,
           }
         );
@@ -198,6 +198,29 @@ export const resetPassword = async (req, res) => {
     });
   } catch (error) {
     console.error("Error updating user:", error);
+    return res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+export const logout = async (req, res) => {
+  try {
+    if (!req.cookies) {
+      return res.status(401).json({ error: "User not logged in" });
+    }
+    res.clearCookie("token", {
+      httpOnly: true,
+      sameSite: "strict",
+    });
+
+    res.clearCookie("userdata", {
+      httpOnly: true,
+      sameSite: "strict",
+    });
+    return res.status(200).json({
+      message: "User logout succesful",
+    });
+  } catch (error) {
+    console.error("Error during logout user:", error);
     return res.status(500).json({ message: "Internal server error" });
   }
 };

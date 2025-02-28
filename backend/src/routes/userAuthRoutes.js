@@ -3,6 +3,7 @@ import express from "express";
 import {
   forgetPassword,
   loggedInUser,
+  logout,
   registerNewUser,
   resetPassword,
   userLogin,
@@ -16,5 +17,7 @@ router.post("/login", userLogin);
 router.get("/logged", loggedInUser);
 router.post("/forget", forgetPassword);
 router.patch("/reset", resetPassword);
+router.post("/logout", logout);
+
 
 export default router;

@@ -2,13 +2,13 @@ import React, { useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { useUser } from "../../Context/UserContext.js";
 import "./NavBar.css";
-import { logout } from "../AuthPages/Logout";
+import { useLogout } from "../AuthPages/Logout.jsx";
 
 export const NavBar = () => {
   const location = useLocation();
   const { userdata } = useUser();
-  useEffect(() => {
-  }, [location]);
+  const logout = useLogout();
+  useEffect(() => {}, [location]);
 
   return (
     <>
@@ -56,7 +56,13 @@ export const NavBar = () => {
                   <Link to="/profile">Profile</Link>
                 </li>
                 <li>
-                  <Link to="/" onClick={logout}>
+                  <Link
+                    to="/"
+                    onClick={(e) => {
+                      e.preventDefault(); 
+                      logout();
+                    }}
+                  >
                     Logout
                   </Link>
                 </li>

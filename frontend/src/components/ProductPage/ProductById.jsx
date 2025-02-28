@@ -56,6 +56,7 @@ export const ProductById = () => {
       });
 
       alert(response.data.message);
+      navigate(`/`);
     } catch (err) {
       console.error(err.response.data.error);
     }
@@ -71,7 +72,7 @@ export const ProductById = () => {
 
   useEffect(() => {
     getProduct();
-  }, [id]);
+  }, [id, product]);
 
   return (
     <>

@@ -110,7 +110,7 @@ export const SearchFilters = () => {
 
   useEffect(() => {
     getProducts();
-  }, [formData]);
+  }, [formData,products]);
 
   return (
     <div>

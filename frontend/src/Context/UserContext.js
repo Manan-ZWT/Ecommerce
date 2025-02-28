@@ -12,7 +12,7 @@ export const UserProvider = ({ children }) => {
       const response = await axios.get(`${API_LINK}/auth/logged`, {
         withCredentials: true,
       });
-      setUserdata(response.data);
+      setUserdata({ ...response.data });
     } catch (error) {
       console.error("Error fetching user data:", error);
     }
@@ -23,7 +23,7 @@ export const UserProvider = ({ children }) => {
   }, []);
 
   return (
-    <UserContext.Provider value={{ userdata, setUserdata }}>
+    <UserContext.Provider value={{ userdata, setUserdata, fetchUserData }}>
       {children}
     </UserContext.Provider>
   );

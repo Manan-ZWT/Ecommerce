@@ -7,9 +7,6 @@ import axios from "axios";
 export const Product = (props) => {
   const API_LINK = process.env.REACT_APP_API_LINK;
   const { userdata } = useUser();
-  // if (!userdata) {
-  //   userdata = undefined;
-  // }
   const navigate = useNavigate();
   const [products, setProducts] = useState([]);
   const getProducts = async () => {
@@ -78,7 +75,7 @@ export const Product = (props) => {
 
   useEffect(() => {
     getProducts();
-  }, []);
+  }, [userdata, products]);
 
   return (
     <>

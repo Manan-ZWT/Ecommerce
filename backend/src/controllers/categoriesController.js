@@ -6,7 +6,6 @@ import { addCategory } from "../validators/categoryValidator.js";
 export const createCategory = async (req, res) => {
   try {
     const name = String(req.body.name).trim();
-    console.log(name);
     try {
       await addCategory.validate({
         name,

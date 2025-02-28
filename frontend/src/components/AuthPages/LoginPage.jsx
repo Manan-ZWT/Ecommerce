@@ -1,7 +1,7 @@
 import "./Loginpage.css";
-import Cookie from "js-cookie";
 import { useState } from "react";
 import axios from "axios";
+import { useUser } from "../../Context/UserContext.js";
 import { useNavigate, Link } from "react-router-dom";
 
 export const LoginForm = () => {
@@ -10,6 +10,7 @@ export const LoginForm = () => {
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
+  const { fetchUserData } = useUser();
 
   const handleForm = (e) => {
     e.preventDefault();
@@ -25,11 +26,12 @@ export const LoginForm = () => {
           password,
         },
         {
-          withCredentials: true, 
+          withCredentials: true,
         }
       );
 
       if (response.data.message === "Succesfully login") {
+        await fetchUserData();
         navigate("/");
       }
     } catch (err) {
