@@ -68,7 +68,6 @@ export const ShowCart = () => {
       const total_price = response.data.total_price;
       const order_items_data = response.data.order_items_data;
       const order_list = response.data.order_list;
-      // console.log(order_id, user_id, total_price, order_items_data, order_list);
 
       var options = {
         key_id: process.env.REACT_APP_D8_RAZORPAY_KEY,
@@ -79,7 +78,6 @@ export const ShowCart = () => {
         image: "/images/Logo.png?",
         order_id: response.data.razor_order.id,
         handler: async function (res) {
-          // console.log(res);
           const razorpay_order_id = res.razorpay_order_id;
           const razorpay_payment_id = res.razorpay_payment_id;
           const razorpay_signature = res.razorpay_signature;
@@ -92,8 +90,6 @@ export const ShowCart = () => {
             }
           );
           if (valid.data.message && valid.data.message === "Success") {
-            // alert(`${valid.data.message}`);
-            // console.log(razorpay_order_id, razorpay_payment_id);
             const response = await axios.post(
               `${API_LINK}/orders/confirm`,
               {

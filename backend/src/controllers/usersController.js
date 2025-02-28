@@ -29,7 +29,7 @@ export const getUserProfile = async (req, res) => {
 export const updateUserProfile = async (req, res) => {
   try {
     const id = parseInt(req.user.id);
-    let { first_name, last_name, email, password } = req.body;
+    let { first_name, last_name, email } = req.body;
 
     // let first_name = String(req.body.first_name).trim();
     // let last_name = String(req.body.last_name).trim();
@@ -40,7 +40,6 @@ export const updateUserProfile = async (req, res) => {
         first_name,
         last_name,
         email,
-        password,
       });
     } catch (validationError) {
       return res.status(406).json({ error: validationError.message });
@@ -59,11 +58,23 @@ export const updateUserProfile = async (req, res) => {
       ...(first_name && { first_name: first_name }),
       ...(last_name && { last_name: last_name }),
       ...(email && { email: email }),
-      ...(password && { password: password }),
     };
 
     await User.update(update_query, { where: { id: id } });
     const user = await User.findByPk(id);
+    res.cookie(
+      "userdata",
+      JSON.stringify({
+        name: `${user.first_name} ${user.last_name}`,
+        email: user.email,
+        role: user.role,
+      }),
+      {
+        httpOnly: true,
+        sameSite: "strict",
+        maxAge: 4 * 60 * 60 * 1000,
+      }
+    );
     return res.status(200).json({
       message: `User data of id: ${id} has been succesfully updated`,
       data: {

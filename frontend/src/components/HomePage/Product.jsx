@@ -66,7 +66,9 @@ export const Product = (props) => {
       const response = await axios.delete(`${API_LINK}/products/${id}`, {
         headers: { Authorization: `Authorization: Bearer ${userdata.token}` },
       });
-
+      setProducts((prevProducts) =>
+        prevProducts.filter((product) => product.id !== id)
+      );
       alert(response.data.message);
     } catch (err) {
       console.error(err.response.data.error);
@@ -75,7 +77,7 @@ export const Product = (props) => {
 
   useEffect(() => {
     getProducts();
-  }, [userdata, products]);
+  }, [userdata]);
 
   return (
     <>

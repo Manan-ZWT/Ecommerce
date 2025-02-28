@@ -1,13 +1,13 @@
 import "../AuthPages/Loginpage.css";
-import Cookie from "js-cookie";
 import { useUser } from "../../Context/UserContext";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useLogout } from "../AuthPages/Logout.jsx";
 import axios from "axios";
 
 export const Updateuser = () => {
-  const API_LINK = process.env.API_LINK;
-  const { userdata } = useUser();
-  const [user, setUser] = useState(userdata);
+  const API_LINK = process.env.REACT_APP_API_LINK;
+  const { userdata, setUserdata, fetchUserData } = useUser();
+  const logout = useLogout();
   const [fname, setFname] = useState("");
   const [lname, setLname] = useState("");
   const [email, setEmail] = useState("");
@@ -22,31 +22,48 @@ export const Updateuser = () => {
 
   const update = async () => {
     try {
-      const response = await axios.patch(
-        `${API_LINK}/users/profile`,
-        {
-          first_name: fname,
-          last_name: lname,
-          email,
-          // password,
-        },
-        {
-          headers: { Authorization: `Authorization: Bearer ${userdata.token}` },
-        }
-      );
-      setSucessMessage(
-        <>
-          <p>{response.data.message}</p>
-        </>
-      );
-
-      const updateData = {
-        name: response.data.data.name,
-        email: response.data.data.email,
-        role: response.data.data.role,
-      };
-      setUser(updateData);
-      setErrorMessage("");
+      if (!email) {
+        const response = await axios.patch(
+          `${API_LINK}/users/profile`,
+          {
+            first_name: fname,
+            last_name: lname,
+          },
+          {
+            headers: {
+              Authorization: `Authorization: Bearer ${userdata.token}`,
+            },
+            withCredentials: true,
+          }
+        );
+        fetchUserData();
+        setSucessMessage(
+          <>
+            <p>{response.data.message}</p>
+          </>
+        );
+        setUserdata({ ...userdata, name: response.data.name });
+        setErrorMessage("");
+      } else {
+        const response = await axios.patch(
+          `${API_LINK}/users/profile`,
+          {
+            first_name: fname,
+            last_name: lname,
+            email: email,
+          },
+          {
+            headers: {
+              Authorization: `Authorization: Bearer ${userdata.token}`,
+            },
+            withCredentials: true,
+          }
+        );
+        alert(
+          "You have updated the Email, so now you have to login using the new Email"
+        );
+        logout();
+      }
     } catch (err) {
       setSucessMessage("");
       if (err.response.data.message)
@@ -61,15 +78,14 @@ export const Updateuser = () => {
       }
     }
   };
-
   return (
     <>
-      {user ? (
+      {userdata ? (
         <div className="login-container">
           <form className="formContainer" onSubmit={handleForm}>
             <h2>User Profile</h2>
-            <p>Name: {user.name}</p>
-            <p>Email: {user.email}</p>
+            <p>Name: {userdata.name}</p>
+            <p>Email: {userdata.email}</p>
             <h2>Update your profile</h2>
 
             <div className="input-group">

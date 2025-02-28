@@ -54,7 +54,9 @@ export const ProductById = () => {
       const response = await axios.delete(`${API_LINK}/products/${id}`, {
         headers: { Authorization: `Authorization: Bearer ${userdata.token}` },
       });
-
+      setProduct((prevProducts) =>
+        prevProducts.filter((product) => product.id !== id)
+      );
       alert(response.data.message);
       navigate(`/`);
     } catch (err) {
@@ -72,7 +74,7 @@ export const ProductById = () => {
 
   useEffect(() => {
     getProduct();
-  }, [id, product]);
+  }, [id]);
 
   return (
     <>
